@@ -5,11 +5,11 @@
 [ext_resource type="Theme" uid="uid://7vsyfmueweyk" path="res://theme/main_theme.tres" id="3_4uo2t"]
 [ext_resource type="Script" path="res://Input.gd" id="4_gxdbs"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8xdxu"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xt2ja"]
 radius = 14.0
 height = 48.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8w7ej"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7ufg0"]
 properties/0/path = NodePath("NameLabel:text")
 properties/0/spawn = true
 properties/0/sync = true
@@ -17,7 +17,7 @@ properties/1/path = NodePath(".:sync_position")
 properties/1/spawn = true
 properties/1/sync = true
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xyhig"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fe8mk"]
 properties/0/path = NodePath(".:direction")
 properties/0/spawn = true
 properties/0/sync = true
@@ -31,7 +31,7 @@ texture = ExtResource("1_53ge6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 16)
-shape = SubResource("CapsuleShape2D_8xdxu")
+shape = SubResource("CapsuleShape2D_xt2ja")
 
 [node name="NameLabel" type="Label" parent="."]
 offset_left = -40.0
@@ -42,7 +42,7 @@ theme = ExtResource("3_4uo2t")
 text = "Player ???"
 
 [node name="PlayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_8w7ej")
+replication_config = SubResource("SceneReplicationConfig_7ufg0")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -50,4 +50,4 @@ replication_config = SubResource("SceneReplicationConfig_8w7ej")
 script = ExtResource("4_gxdbs")
 
 [node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="Input"]
-replication_config = SubResource("SceneReplicationConfig_xyhig")
+replication_config = SubResource("SceneReplicationConfig_fe8mk")

@@ -8,39 +8,33 @@ const Player = preload("res://player.tscn")
 func _ready():
     $PlayerSpawner.spawned.connect(self._on_spawn)
 
-    var peer = ENetMultiplayerPeer.new()
     if LocalData.is_server:
-        multiplayer.peer_connected.connect(self._peer_connected)
-        peer.create_server(SERVER_PORT)
-        multiplayer.multiplayer_peer = peer
+        GameState.start_server()
+        GameState.player_joined.connect(self._player_joined)
+        GameState.player_left.connect(self._player_left)
         multiplayer_info.text = "Server(%d)" % multiplayer.get_unique_id()
     else:
-        multiplayer.connected_to_server.connect(self._connected_to_server)
-        peer.create_client("localhost", SERVER_PORT)
-        multiplayer.multiplayer_peer = peer
+        GameState.join_server(LocalData.client_address, LocalData.client_port)
+        GameState.connected_to_server.connect(self._connected_to_server)
         multiplayer_info.text = "Client(%d)" % multiplayer.get_unique_id()
 
 func create_player(id):
     var player = Player.instantiate()
     player.player_name = "Player %d" % id
     player.name = str(id)
-    # player.set_multiplayer_authority(id)
     $Players.add_child(player)
 
-func destroy_player(id):
+func _player_left(id):
     $Players.get_node(str(id)).queue_free()
 
-func _peer_connected(id):
-    p("Peer connected: %d" % id)
+func _player_joined(id):
+    GameState.msg("Peer connected: %d" % id)
     create_player(id)
 
 func _on_spawn(node):
-    p("Spawned %s" % node)
+    GameState.msg("Spawned %s" % node)
 
 func _connected_to_server():
-    p("Connected to the server")
+    GameState.msg("Connected to the server")
     LocalData.connected = true
-    # create_player(multiplayer.get_unique_id())
-
-func p(msg):
-    print("%d - %s" % [multiplayer.get_unique_id(), msg])
+    GameState.rpc("rpc_update_player_name", LocalData.player_name)
