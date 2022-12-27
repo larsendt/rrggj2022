@@ -2,14 +2,14 @@
 
 [ext_resource type="Texture2D" uid="uid://cmacr4wlaedv3" path="res://assets/sprites/player.png" id="1_53ge6"]
 [ext_resource type="Script" path="res://player.gd" id="1_np5kk"]
-[ext_resource type="Theme" uid="uid://mujigvckefq3" path="res://main_theme.tres" id="3_x7enb"]
+[ext_resource type="Theme" uid="uid://7vsyfmueweyk" path="res://theme/main_theme.tres" id="3_4uo2t"]
 [ext_resource type="Script" path="res://Input.gd" id="4_gxdbs"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_50dhp"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8xdxu"]
 radius = 14.0
 height = 48.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_n2l34"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_8w7ej"]
 properties/0/path = NodePath("NameLabel:text")
 properties/0/spawn = true
 properties/0/sync = true
@@ -17,7 +17,7 @@ properties/1/path = NodePath(".:sync_position")
 properties/1/spawn = true
 properties/1/sync = true
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_65hmm"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xyhig"]
 properties/0/path = NodePath(".:direction")
 properties/0/spawn = true
 properties/0/sync = true
@@ -31,18 +31,18 @@ texture = ExtResource("1_53ge6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 16)
-shape = SubResource("CapsuleShape2D_50dhp")
+shape = SubResource("CapsuleShape2D_8xdxu")
 
 [node name="NameLabel" type="Label" parent="."]
 offset_left = -40.0
 offset_top = -56.0
 offset_right = 43.0
 offset_bottom = -30.0
-theme = ExtResource("3_x7enb")
+theme = ExtResource("3_4uo2t")
 text = "Player ???"
 
 [node name="PlayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_n2l34")
+replication_config = SubResource("SceneReplicationConfig_8w7ej")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -50,4 +50,4 @@ replication_config = SubResource("SceneReplicationConfig_n2l34")
 script = ExtResource("4_gxdbs")
 
 [node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="Input"]
-replication_config = SubResource("SceneReplicationConfig_65hmm")
+replication_config = SubResource("SceneReplicationConfig_xyhig")

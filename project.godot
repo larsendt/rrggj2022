@@ -17,7 +17,6 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Scenes="*res://scenes.tscn"
 LocalData="*res://local_data.tscn"
 GameState="*res://game_state.tscn"
 
