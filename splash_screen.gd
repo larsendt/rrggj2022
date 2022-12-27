@@ -3,6 +3,7 @@ extends Node2D
 const StartScreen = preload("res://start_screen.tscn")
 
 @onready var splash_text_label = find_child("SplashText")
+@onready var splash_text2_label = find_child("SplashText2")
 
 func _ready():
     $TypingTimer.connect("timeout", self._type_splash_text)
@@ -16,11 +17,13 @@ func _input(event):
 
 
 func _type_splash_text():
-    if splash_text_label.visible_characters >= 9:
+    if splash_text_label.visible_characters < 9:
+        splash_text_label.visible_characters += 1
+    elif splash_text2_label.visible_characters < 4:
+        splash_text2_label.visible_characters += 1
+    else:
         $TypingTimer.stop()
         $TransitionTimer.start()
-        return
-    splash_text_label.visible_characters += 1
 
 func _scene_transition():
     get_tree().change_scene_to_packed(StartScreen)
