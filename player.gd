@@ -36,3 +36,12 @@ func node_is_locally_controlled():
 
 func is_auth():
     return multiplayer.multiplayer_peer == null or is_multiplayer_authority()
+
+func display_message(msg):
+    $MessageLabel.text = msg
+    $MessageLabel.visible = true
+    $MessageTimer.timeout.connect(self.hide_message)
+    $MessageTimer.start()
+
+func hide_message():
+    $MessageLabel.visible = false

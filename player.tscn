@@ -5,19 +5,25 @@
 [ext_resource type="Theme" uid="uid://7vsyfmueweyk" path="res://theme/main_theme.tres" id="3_4uo2t"]
 [ext_resource type="Script" path="res://Input.gd" id="4_gxdbs"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xt2ja"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lekbh"]
 radius = 14.0
 height = 48.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7ufg0"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_a6mb5"]
 properties/0/path = NodePath("NameLabel:text")
 properties/0/spawn = true
 properties/0/sync = true
 properties/1/path = NodePath(".:sync_position")
 properties/1/spawn = true
 properties/1/sync = true
+properties/2/path = NodePath("MessageLabel:text")
+properties/2/spawn = true
+properties/2/sync = true
+properties/3/path = NodePath("MessageLabel:visible")
+properties/3/spawn = true
+properties/3/sync = true
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fe8mk"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tydlg"]
 properties/0/path = NodePath(".:direction")
 properties/0/spawn = true
 properties/0/sync = true
@@ -31,18 +37,48 @@ texture = ExtResource("1_53ge6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 16)
-shape = SubResource("CapsuleShape2D_xt2ja")
+shape = SubResource("CapsuleShape2D_lekbh")
 
 [node name="NameLabel" type="Label" parent="."]
-offset_left = -40.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.0
 offset_top = -56.0
-offset_right = 43.0
-offset_bottom = -30.0
+offset_right = 48.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
 theme = ExtResource("3_4uo2t")
+theme_override_colors/font_color = Color(0.741176, 0.741176, 0.741176, 1)
+theme_override_constants/shadow_outline_size = 1
 text = "Player ???"
+horizontal_alignment = 1
+
+[node name="MessageLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.0
+offset_top = -80.0
+offset_right = 144.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_4uo2t")
+theme_override_colors/font_color = Color(0.996078, 0.996078, 0.996078, 1)
+theme_override_constants/shadow_outline_size = 1
+text = "This is a message from player ???"
+horizontal_alignment = 1
 
 [node name="PlayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_7ufg0")
+replication_config = SubResource("SceneReplicationConfig_a6mb5")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -50,4 +86,8 @@ replication_config = SubResource("SceneReplicationConfig_7ufg0")
 script = ExtResource("4_gxdbs")
 
 [node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="Input"]
-replication_config = SubResource("SceneReplicationConfig_fe8mk")
+replication_config = SubResource("SceneReplicationConfig_tydlg")
+
+[node name="MessageTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true

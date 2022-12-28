@@ -24,6 +24,10 @@ func _join():
         print("Invalid port ", client_port_input.text)
         return
 
+    if len(player_name_input.text) == 0:
+        print("Invalid player name ", player_name_input.text)
+        return
+
     LocalData.player_name = player_name_input.text
     LocalData.is_server = false
     LocalData.client_address = client_address_input.text
