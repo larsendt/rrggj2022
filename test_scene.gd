@@ -63,6 +63,7 @@ func _update_player_name(id: int, player_name: String):
         node.player_name = player_name
 
 func _on_player_message(id: int, m: String):
+    $MessageNotificationSound.play()
     if id == 1:
         print("Server sent a message: ", m)
         server_message_label.text = "[color=#777777]Server:[/color] %s" % m

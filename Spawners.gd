@@ -11,6 +11,7 @@ func pick_spawner() -> Node2D:
         else:
             print("Spawner %s disabled, trying again" % spawner)
             await get_tree().create_timer(0.25).timeout
+    spawner.do_spawn()
     return spawner
 
         

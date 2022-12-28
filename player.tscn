@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://c8ahovybu7hfc"]
+[gd_scene load_steps=9 format=3 uid="uid://c8ahovybu7hfc"]
 
 [ext_resource type="Texture2D" uid="uid://cmacr4wlaedv3" path="res://assets/sprites/player.png" id="1_53ge6"]
 [ext_resource type="Script" path="res://player.gd" id="1_np5kk"]
 [ext_resource type="Theme" uid="uid://7vsyfmueweyk" path="res://theme/main_theme.tres" id="3_4uo2t"]
 [ext_resource type="Script" path="res://Input.gd" id="4_gxdbs"]
+[ext_resource type="AudioStream" uid="uid://dg3ums6l7w36a" path="res://assets/sfx/step_sound_resource.tres" id="5_q4vqq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lekbh"]
 radius = 14.0
@@ -22,6 +23,9 @@ properties/2/sync = true
 properties/3/path = NodePath("MessageLabel:visible")
 properties/3/spawn = true
 properties/3/sync = true
+properties/4/path = NodePath(".:sync_velocity")
+properties/4/spawn = true
+properties/4/sync = true
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tydlg"]
 properties/0/path = NodePath(".:direction")
@@ -91,3 +95,8 @@ replication_config = SubResource("SceneReplicationConfig_tydlg")
 [node name="MessageTimer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+
+[node name="StepPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_q4vqq")
+volume_db = 7.687
+autoplay = true

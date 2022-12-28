@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cx28fyplr813i"]
+[gd_scene load_steps=12 format=3 uid="uid://cx28fyplr813i"]
 
 [ext_resource type="Script" path="res://test_scene.gd" id="1_4m3m8"]
 [ext_resource type="Texture2D" uid="uid://d0g5dovul1if1" path="res://assets/sprites/grass_tiles.png" id="3_7iq5t"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bfmuvn266sipd" path="res://spawner.tscn" id="4_6pg4p"]
 [ext_resource type="Script" path="res://Spawners.gd" id="4_trrn4"]
 [ext_resource type="Texture2D" uid="uid://cm7whqrwshvgq" path="res://assets/sprites/wall_tiles.png" id="4_xyso8"]
+[ext_resource type="AudioStream" uid="uid://c6sulbhbupgcx" path="res://assets/sfx/chat_message.wav" id="7_dkldr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v7yam"]
 texture = ExtResource("3_7iq5t")
@@ -166,16 +167,21 @@ size_flags_vertical = 4
 theme = ExtResource("3_uu416")
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/InfoBox"]
-layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 93.0
+offset_bottom = 28.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("3_uu416")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/InfoBox/PanelContainer"]
-layout_mode = 2
+offset_right = 85.0
+offset_bottom = 20.0
 
 [node name="MultiplayerInfo" type="Label" parent="CanvasLayer/InfoBox/PanelContainer/HBoxContainer"]
-layout_mode = 2
+offset_right = 85.0
+offset_bottom = 20.0
 theme = ExtResource("3_uu416")
 theme_override_font_sizes/font_size = 12
 text = "Unknown(???)"
@@ -196,21 +202,31 @@ size_flags_vertical = 0
 theme = ExtResource("3_uu416")
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/MessageBox"]
-layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 330.0
+offset_bottom = 46.0
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/MessageBox/PanelContainer"]
-layout_mode = 2
+offset_right = 322.0
+offset_bottom = 38.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/MessageBox/PanelContainer/MarginContainer"]
-layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 314.0
+offset_bottom = 30.0
 
 [node name="PlayerMessageInput" type="LineEdit" parent="CanvasLayer/MessageBox/PanelContainer/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(256, 0)
-layout_mode = 2
+offset_right = 256.0
+offset_bottom = 22.0
 placeholder_text = "Type a message..."
 
 [node name="PlayerMessageSendButton" type="Button" parent="CanvasLayer/MessageBox/PanelContainer/MarginContainer/HBoxContainer"]
-layout_mode = 2
+offset_left = 260.0
+offset_right = 306.0
+offset_bottom = 22.0
 text = "Send"
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
@@ -225,7 +241,10 @@ theme = ExtResource("3_uu416")
 
 [node name="ServerMessageLabel" type="RichTextLabel" parent="CanvasLayer/MarginContainer"]
 visible = false
-layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 257.0
+offset_bottom = 32.0
 theme_override_colors/default_color = Color(0.776471, 0.776471, 0.776471, 1)
 theme_override_font_sizes/normal_font_size = 14
 theme_override_font_sizes/bold_font_size = 14
@@ -238,3 +257,6 @@ fit_content_height = true
 [node name="ServerMessageTimer" type="Timer" parent="CanvasLayer/MarginContainer"]
 wait_time = 3.0
 one_shot = true
+
+[node name="MessageNotificationSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_dkldr")

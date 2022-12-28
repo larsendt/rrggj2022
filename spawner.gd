@@ -13,3 +13,6 @@ func _player_entered(_body):
 func _player_exited(_body):
     print(self, " enabled")
     spawner_enabled = true
+
+func do_spawn():
+    $SpawnSound.play()
