@@ -31,7 +31,7 @@ func join_server(ip_addr, port):
 func msg(m):
     rpc("rpc_broadcast_message", m)
 
-@rpc(any_peer, call_remote, reliable, 1)
+@rpc(any_peer, call_local, reliable, 1)
 func rpc_send_player_message(m):
     print("[local: %d] [caller: %d] [say]: %s" % [multiplayer.get_unique_id(), multiplayer.get_remote_sender_id(), m])
     emit_signal("player_message_received", multiplayer.get_remote_sender_id(), m)

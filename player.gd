@@ -2,9 +2,9 @@ extends CharacterBody2D
 
 const SPEED = 150
 
-@export var sync_position: Vector2 = Vector2.ZERO
+var sync_position: Vector2 = Vector2.ZERO
 
-@export var player_name = "Player ???":
+var player_name = "Player ???":
     set(new_name):
         player_name = new_name
         $NameLabel.text = new_name
@@ -15,6 +15,7 @@ func _enter_tree():
 func _ready():
     if node_is_locally_controlled():
         $Camera2D.current = true
+        $NameLabel.add_theme_color_override("font_color", "#00FF33")
     else:
         $Camera2D.current = false
 

@@ -5,6 +5,8 @@ const Player = preload("res://player.tscn")
 
 @onready var multiplayer_info: Label = find_child("MultiplayerInfo")
 @onready var player_message_input: LineEdit = find_child("PlayerMessageInput")
+@onready var server_message_label: RichTextLabel = find_child("ServerMessageLabel")
+@onready var server_message_timer: Timer = find_child("ServerMessageTimer")
 
 var local_player = null
 
@@ -14,6 +16,7 @@ func _ready():
     player_message_input.focus_entered.connect(self._on_player_typing)
     player_message_input.focus_exited.connect(self._on_player_done_typing)
     $PlayerSpawner.spawned.connect(self._on_spawn)
+    server_message_timer.timeout.connect(func(): server_message_label.visible = false)
 
     GameState.player_name_updated.connect(self._update_player_name)
     GameState.player_message_received.connect(self._on_player_message)
@@ -32,6 +35,10 @@ func create_player(id):
     var player = Player.instantiate()
     player.player_name = "Player %d" % id
     player.name = str(id)
+
+    var spawner = await $Spawners.pick_spawner()
+    player.global_position = spawner.global_position
+
     $Players.add_child(player)
 
 func _player_left(id):
@@ -58,6 +65,9 @@ func _update_player_name(id: int, player_name: String):
 func _on_player_message(id: int, m: String):
     if id == 1:
         print("Server sent a message: ", m)
+        server_message_label.text = "[color=#777777]Server:[/color] %s" % m
+        server_message_label.visible = true
+        server_message_timer.start()
         return
 
     var node = $Players.get_node(str(id))
