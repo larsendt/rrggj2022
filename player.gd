@@ -2,8 +2,9 @@ extends CharacterBody2D
 
 const SPEED = 150
 
-var sync_position: Vector2 = Vector2.ZERO
-var sync_velocity: Vector2 = Vector2.ZERO
+@export var sync_position: Vector2 = Vector2.ZERO
+@export var sync_velocity: Vector2 = Vector2.ZERO
+@export var sync_cursor_angle: float = 0.0
 
 var player_name = "Player ???":
     set(new_name):
@@ -26,15 +27,28 @@ func _ready():
 
 func _physics_process(_delta):
     if node_is_locally_controlled():
-        $Input.update()
+        $Input.update(global_position, get_global_mouse_position())
 
     if is_auth():
         velocity = $Input.direction * SPEED
         move_and_slide()
         sync_position = position
         sync_velocity = velocity
+        sync_cursor_angle = $Input.cursor_angle
+        $RedArrow.rotation = sync_cursor_angle
     else:
         position = sync_position
+        $RedArrow.rotation = sync_cursor_angle
+
+    if sync_velocity.length() > 0:
+        $PlayerSprite.play("walk")
+    else:
+        $PlayerSprite.play("idle")
+
+    if sync_velocity.x > 0:
+        $PlayerSprite.flip_h = true
+    else:
+        $PlayerSprite.flip_h = false
 
     # if velocity.length() > 0 and not $StepPlayer.playing:
     #     $StepPlayer.play()
@@ -43,8 +57,7 @@ func _physics_process(_delta):
 
 func server_swing_weapon():
     assert(multiplayer.get_unique_id() == 1)
-    print("player swing")
-    $Weapon.swing()
+    $Weapon.swing(sync_cursor_angle)
 
 func node_is_locally_controlled():
     # single player or we control this node
@@ -75,3 +88,6 @@ func display_message(msg):
 
 func hide_message():
     $MessageLabel.visible = false
+
+func do_hit():
+    $HurtSound.play()

@@ -59,7 +59,6 @@ func _player_joined(id):
     create_player(id)
 
 func _on_spawn(node):
-    print("%d spawn %s" % [multiplayer.get_unique_id(), node])
     if str(multiplayer.get_unique_id()) == node.name:
         local_player = node
 
