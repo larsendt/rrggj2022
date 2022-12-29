@@ -8,6 +8,7 @@ const Player = preload("res://player.tscn")
 @onready var server_message_label: RichTextLabel = find_child("ServerMessageLabel")
 @onready var server_message_timer: Timer = find_child("ServerMessageTimer")
 @onready var message_log_label: RichTextLabel = find_child("MessageLogLabel")
+@onready var connecting_menu: Control = find_child("ConnectingMenu")
 
 var local_player = null
 
@@ -28,7 +29,9 @@ func _ready():
         GameState.player_joined.connect(self._player_joined)
         GameState.player_left.connect(self._player_left)
         multiplayer_info.text = "Server(%d)" % multiplayer.get_unique_id()
+        connecting_menu.visible = false
     else:
+        connecting_menu.visible = true
         GameState.join_server(LocalData.client_address, LocalData.client_port)
         GameState.connected_to_server.connect(self._connected_to_server)
         multiplayer_info.text = "Client(%d)" % multiplayer.get_unique_id()
@@ -61,6 +64,7 @@ func _on_spawn(node):
 
 func _connected_to_server():
     LocalData.connected = true
+    connecting_menu.visible = false
     await get_tree().create_timer(0.25).timeout
     GameState.rpc("rpc_update_player_name", LocalData.player_name)
 
