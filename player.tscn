@@ -6,11 +6,11 @@
 [ext_resource type="Script" path="res://Input.gd" id="4_gxdbs"]
 [ext_resource type="AudioStream" uid="uid://dg3ums6l7w36a" path="res://assets/sfx/step_sound_resource.tres" id="5_q4vqq"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lekbh"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_teqg7"]
 radius = 14.0
 height = 48.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_a6mb5"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4eqrl"]
 properties/0/path = NodePath("NameLabel:text")
 properties/0/spawn = true
 properties/0/sync = true
@@ -27,7 +27,7 @@ properties/4/path = NodePath(".:sync_velocity")
 properties/4/spawn = true
 properties/4/sync = true
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tydlg"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2nh3o"]
 properties/0/path = NodePath(".:direction")
 properties/0/spawn = true
 properties/0/sync = true
@@ -41,7 +41,7 @@ texture = ExtResource("1_53ge6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 16)
-shape = SubResource("CapsuleShape2D_lekbh")
+shape = SubResource("CapsuleShape2D_teqg7")
 
 [node name="NameLabel" type="Label" parent="."]
 anchors_preset = 8
@@ -82,7 +82,7 @@ text = "This is a message from player ???"
 horizontal_alignment = 1
 
 [node name="PlayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_a6mb5")
+replication_config = SubResource("SceneReplicationConfig_4eqrl")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -90,7 +90,7 @@ replication_config = SubResource("SceneReplicationConfig_a6mb5")
 script = ExtResource("4_gxdbs")
 
 [node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="Input"]
-replication_config = SubResource("SceneReplicationConfig_tydlg")
+replication_config = SubResource("SceneReplicationConfig_2nh3o")
 
 [node name="MessageTimer" type="Timer" parent="."]
 wait_time = 3.0
