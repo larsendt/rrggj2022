@@ -172,16 +172,21 @@ size_flags_vertical = 4
 theme = ExtResource("3_uu416")
 
 [node name="PanelContainer" type="PanelContainer" parent="UI/InfoBox"]
-layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 93.0
+offset_bottom = 28.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("3_uu416")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/InfoBox/PanelContainer"]
-layout_mode = 2
+offset_right = 85.0
+offset_bottom = 20.0
 
 [node name="MultiplayerInfo" type="Label" parent="UI/InfoBox/PanelContainer/HBoxContainer"]
-layout_mode = 2
+offset_right = 85.0
+offset_bottom = 20.0
 theme = ExtResource("3_uu416")
 theme_override_font_sizes/font_size = 12
 text = "Unknown(???)"
@@ -201,32 +206,45 @@ size_flags_vertical = 4
 theme = ExtResource("3_uu416")
 
 [node name="PanelContainer" type="PanelContainer" parent="UI/MessageBox"]
-layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 408.0
+offset_bottom = 114.0
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/MessageBox/PanelContainer"]
-layout_mode = 2
+offset_right = 400.0
+offset_bottom = 106.0
 size_flags_horizontal = 8
 size_flags_vertical = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/MessageBox/PanelContainer/MarginContainer"]
-layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 392.0
+offset_bottom = 98.0
 
 [node name="MessageLogLabel" type="RichTextLabel" parent="UI/MessageBox/PanelContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(384, 64)
-layout_mode = 2
+offset_right = 384.0
+offset_bottom = 64.0
 bbcode_enabled = true
 scroll_following = true
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/MessageBox/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
+offset_top = 68.0
+offset_right = 384.0
+offset_bottom = 90.0
 
 [node name="PlayerMessageInput" type="LineEdit" parent="UI/MessageBox/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(256, 0)
-layout_mode = 2
+offset_right = 256.0
+offset_bottom = 22.0
 placeholder_text = "Type a message..."
 
 [node name="PlayerMessageSendButton" type="Button" parent="UI/MessageBox/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
+offset_left = 260.0
+offset_right = 306.0
+offset_bottom = 22.0
 text = "Send"
 
 [node name="ServerMessageBox" type="MarginContainer" parent="UI"]
@@ -241,7 +259,10 @@ theme = ExtResource("3_uu416")
 
 [node name="ServerMessageLabel" type="RichTextLabel" parent="UI/ServerMessageBox"]
 visible = false
-layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 257.0
+offset_bottom = 32.0
 theme_override_colors/default_color = Color(1, 1, 1, 1)
 theme_override_font_sizes/normal_font_size = 18
 theme_override_font_sizes/bold_font_size = 18
@@ -268,25 +289,35 @@ theme = ExtResource("3_uu416")
 script = ExtResource("8_qadvn")
 
 [node name="TextureRect" type="TextureRect" parent="UI/EscapeMenu"]
-layout_mode = 2
+offset_right = 640.0
+offset_bottom = 480.0
 texture = ExtResource("8_3uw6k")
 ignore_texture_size = true
 
 [node name="MarginContainer" type="MarginContainer" parent="UI/EscapeMenu"]
-layout_mode = 2
+offset_left = 252.0
+offset_top = 192.0
+offset_right = 388.0
+offset_bottom = 288.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
 [node name="HBoxContainer" type="VBoxContainer" parent="UI/EscapeMenu/MarginContainer"]
-layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 128.0
+offset_bottom = 88.0
 
 [node name="ResumeButton" type="Button" parent="UI/EscapeMenu/MarginContainer/HBoxContainer"]
-layout_mode = 2
+offset_right = 120.0
+offset_bottom = 38.0
 theme_override_font_sizes/font_size = 32
 text = "Resume"
 
 [node name="QuitButton" type="Button" parent="UI/EscapeMenu/MarginContainer/HBoxContainer"]
-layout_mode = 2
+offset_top = 42.0
+offset_right = 120.0
+offset_bottom = 80.0
 theme_override_font_sizes/font_size = 32
 text = "Quit"
 
@@ -302,7 +333,6 @@ texture = ExtResource("8_3uw6k")
 ignore_texture_size = true
 
 [node name="PanelContainer" type="PanelContainer" parent="UI/ConnectingMenu"]
-layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -316,6 +346,9 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ConnectingLabel" type="Label" parent="UI/ConnectingMenu/PanelContainer"]
-layout_mode = 2
+offset_right = 227.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_font_sizes/font_size = 32
 text = "Connecting..."

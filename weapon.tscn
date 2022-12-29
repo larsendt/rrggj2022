@@ -1,0 +1,129 @@
+[gd_scene load_steps=9 format=3 uid="uid://clc4xn1xcwnld"]
+
+[ext_resource type="Script" path="res://Weapon.gd" id="1_26yhe"]
+[ext_resource type="Texture2D" uid="uid://bditerrg500dh" path="res://assets/sprites/baguette.png" id="2_jy0jy"]
+[ext_resource type="AudioStream" uid="uid://bsxopifnbntca" path="res://assets/sfx/swing.wav" id="3_ni8jn"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d4rd8"]
+radius = 6.0
+height = 56.0
+
+[sub_resource type="Animation" id="Animation_7ptv7"]
+resource_name = "Swing"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [0.0, 3.14159]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SwingSound:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Area2D/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_k1hub"]
+resource_name = "SwingBack"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [3.14159, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SwingSound:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Area2D/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7ydgg"]
+_data = {
+"Swing": SubResource("Animation_7ptv7"),
+"SwingBack": SubResource("Animation_k1hub")
+}
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_uobnq"]
+properties/0/path = NodePath("SwingAnimation:current_animation")
+properties/0/spawn = true
+properties/0/sync = true
+
+[node name="Weapon" type="Node2D"]
+rotation = 3.14159
+script = ExtResource("1_26yhe")
+
+[node name="Baguette" type="Sprite2D" parent="."]
+position = Vector2(-48, 8)
+rotation = 1.5708
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_jy0jy")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-48, 8)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_d4rd8")
+disabled = true
+
+[node name="SwingAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7ydgg")
+}
+
+[node name="SwingSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ni8jn")
+
+[node name="WeaponSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_uobnq")

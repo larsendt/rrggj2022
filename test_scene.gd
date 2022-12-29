@@ -48,6 +48,7 @@ func create_player(id):
 
     var spawner = await $Spawners.pick_spawner()
     player.global_position = spawner.global_position
+    player.find_child("Input").set_multiplayer_authority(id)
 
     $Players.add_child(player)
 

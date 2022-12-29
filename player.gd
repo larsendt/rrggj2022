@@ -21,6 +21,9 @@ func _ready():
     else:
         $Camera2D.current = false
 
+    $Input.weapon_swung.connect(self.server_swing_weapon)
+
+
 func _physics_process(_delta):
     if node_is_locally_controlled():
         $Input.update()
@@ -38,6 +41,10 @@ func _physics_process(_delta):
     # elif velocity.length() == 0 and $StepPlayer.playing:
     #     $StepPlayer.stop()
 
+func server_swing_weapon():
+    assert(multiplayer.get_unique_id() == 1)
+    print("player swing")
+    $Weapon.swing()
 
 func node_is_locally_controlled():
     # single player or we control this node

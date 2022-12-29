@@ -1,14 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://c8ahovybu7hfc"]
+[gd_scene load_steps=11 format=3 uid="uid://c8ahovybu7hfc"]
 
 [ext_resource type="Texture2D" uid="uid://cmacr4wlaedv3" path="res://assets/sprites/player.png" id="1_53ge6"]
 [ext_resource type="Script" path="res://player.gd" id="1_np5kk"]
 [ext_resource type="Theme" uid="uid://7vsyfmueweyk" path="res://theme/main_theme.tres" id="3_4uo2t"]
 [ext_resource type="Script" path="res://Input.gd" id="4_gxdbs"]
 [ext_resource type="AudioStream" uid="uid://dg3ums6l7w36a" path="res://assets/sfx/step_sound_resource.tres" id="5_q4vqq"]
+[ext_resource type="PackedScene" uid="uid://clc4xn1xcwnld" path="res://weapon.tscn" id="6_nb0yn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_teqg7"]
-radius = 14.0
-height = 48.0
+radius = 16.0
+height = 32.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_4eqrl"]
 properties/0/path = NodePath("NameLabel:text")
@@ -32,15 +33,20 @@ properties/0/path = NodePath(".:direction")
 properties/0/spawn = true
 properties/0/sync = true
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4vlxt"]
+radius = 18.0
+height = 88.0
+
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_np5kk")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, 8)
+position = Vector2(9.53674e-07, 3.8147e-06)
+scale = Vector2(1.375, 1.375)
 texture = ExtResource("1_53ge6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 16)
+position = Vector2(0, 24)
 shape = SubResource("CapsuleShape2D_teqg7")
 
 [node name="NameLabel" type="Label" parent="."]
@@ -50,9 +56,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -48.0
-offset_top = -56.0
+offset_top = -80.0
 offset_right = 48.0
-offset_bottom = -32.0
+offset_bottom = -56.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -70,9 +76,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -144.0
-offset_top = -80.0
+offset_top = -104.0
 offset_right = 144.0
-offset_bottom = -56.0
+offset_bottom = -80.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_4uo2t")
@@ -100,3 +106,11 @@ one_shot = true
 stream = ExtResource("5_q4vqq")
 volume_db = 7.687
 autoplay = true
+
+[node name="Weapon" parent="." instance=ExtResource("6_nb0yn")]
+
+[node name="HitBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
+position = Vector2(-2, -11)
+shape = SubResource("CapsuleShape2D_4vlxt")
