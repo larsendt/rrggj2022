@@ -1,0 +1,6 @@
+- Server follows player, UI to pick which player
+- Server free cam
+- Barrel goblin drops Borg Barrel
+- More weapons
+- Accessories
+

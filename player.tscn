@@ -9,61 +9,61 @@
 [ext_resource type="Texture2D" uid="uid://b2lhq6vocjg16" path="res://assets/sprites/red_arrow.png" id="7_qds34"]
 [ext_resource type="AudioStream" uid="uid://bcpcjxficmm1h" path="res://assets/sfx/hurt.wav" id="8_6ehb4"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mu7lc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_q08ei"]
 atlas = ExtResource("1_53ge6")
 region = Rect2(256, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2spv0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fiwms"]
 atlas = ExtResource("1_53ge6")
 region = Rect2(384, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_u00ob"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_tr1rb"]
 atlas = ExtResource("1_53ge6")
 region = Rect2(0, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_r05rt"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2fh6m"]
 atlas = ExtResource("1_53ge6")
 region = Rect2(128, 0, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_of1v0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_aosi4"]
 atlas = ExtResource("1_53ge6")
 region = Rect2(0, 128, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_aw1wt"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_imuo1"]
 atlas = ExtResource("1_53ge6")
 region = Rect2(256, 128, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_81opq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_efogt"]
 atlas = ExtResource("1_53ge6")
 region = Rect2(128, 128, 128, 128)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_e432s"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_s7lux"]
 atlas = ExtResource("1_53ge6")
 region = Rect2(256, 128, 128, 128)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_1ed1e"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_bu4md"]
 animations = [{
-"frames": [SubResource("AtlasTexture_mu7lc"), SubResource("AtlasTexture_2spv0")],
+"frames": [SubResource("AtlasTexture_q08ei"), SubResource("AtlasTexture_fiwms")],
 "loop": true,
 "name": &"hurt",
 "speed": 10.0
 }, {
-"frames": [SubResource("AtlasTexture_u00ob"), SubResource("AtlasTexture_r05rt")],
+"frames": [SubResource("AtlasTexture_tr1rb"), SubResource("AtlasTexture_2fh6m")],
 "loop": true,
 "name": &"idle",
 "speed": 1.5
 }, {
-"frames": [SubResource("AtlasTexture_of1v0"), SubResource("AtlasTexture_aw1wt"), SubResource("AtlasTexture_81opq"), SubResource("AtlasTexture_e432s")],
+"frames": [SubResource("AtlasTexture_aosi4"), SubResource("AtlasTexture_imuo1"), SubResource("AtlasTexture_efogt"), SubResource("AtlasTexture_s7lux")],
 "loop": true,
 "name": &"walk",
 "speed": 8.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_l48hb"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tsdy3"]
 radius = 19.0
 height = 48.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7shqw"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2lqh6"]
 properties/0/path = NodePath("NameLabel:text")
 properties/0/spawn = true
 properties/0/sync = true
@@ -86,7 +86,7 @@ properties/6/path = NodePath(".:sync_hurting")
 properties/6/spawn = true
 properties/6/sync = true
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q70b1"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xwa4h"]
 properties/0/path = NodePath(".:direction")
 properties/0/spawn = true
 properties/0/sync = true
@@ -94,7 +94,7 @@ properties/1/path = NodePath(".:cursor_angle")
 properties/1/spawn = true
 properties/1/sync = true
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_soit8"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5fvse"]
 radius = 26.0
 height = 122.0
 
@@ -104,7 +104,7 @@ script = ExtResource("1_np5kk")
 
 [node name="PlayerSprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(8, 0)
-frames = SubResource("SpriteFrames_1ed1e")
+frames = SubResource("SpriteFrames_bu4md")
 animation = &"walk"
 playing = true
 
@@ -119,7 +119,7 @@ texture = ExtResource("7_qds34")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 40)
-shape = SubResource("CapsuleShape2D_l48hb")
+shape = SubResource("CapsuleShape2D_tsdy3")
 
 [node name="NameLabel" type="Label" parent="."]
 anchors_preset = 8
@@ -160,7 +160,7 @@ text = "This is a message from player ???"
 horizontal_alignment = 1
 
 [node name="PlayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_7shqw")
+replication_config = SubResource("SceneReplicationConfig_2lqh6")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 
@@ -168,7 +168,7 @@ replication_config = SubResource("SceneReplicationConfig_7shqw")
 script = ExtResource("4_gxdbs")
 
 [node name="InputSynchronizer" type="MultiplayerSynchronizer" parent="Input"]
-replication_config = SubResource("SceneReplicationConfig_q70b1")
+replication_config = SubResource("SceneReplicationConfig_xwa4h")
 
 [node name="MessageTimer" type="Timer" parent="."]
 wait_time = 3.0
@@ -189,7 +189,7 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBox"]
 position = Vector2(2, 0)
-shape = SubResource("CapsuleShape2D_soit8")
+shape = SubResource("CapsuleShape2D_5fvse")
 
 [node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_6ehb4")

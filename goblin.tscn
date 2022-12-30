@@ -152,8 +152,9 @@ grow_vertical = 2
 theme = ExtResource("3_3livg")
 theme_override_colors/font_color = Color(0.733333, 0.733333, 0.733333, 1)
 theme_override_constants/shadow_outline_size = 1
-text = "Gobbo"
+text = "Snog"
 horizontal_alignment = 1
 
 [node name="FillableBar" parent="." instance=ExtResource("4_7hilr")]
 position = Vector2(0, -88)
+bar_color = Color(0.768627, 0, 0.133333, 1)

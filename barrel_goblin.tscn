@@ -1,0 +1,121 @@
+[gd_scene load_steps=11 format=3 uid="uid://rk6i7hw87yml"]
+
+[ext_resource type="Script" path="res://barrel_goblin.gd" id="1_4uagh"]
+[ext_resource type="Texture2D" uid="uid://cl6j7gffurrq4" path="res://assets/sprites/goblin.png" id="1_llh0b"]
+[ext_resource type="Theme" uid="uid://7vsyfmueweyk" path="res://theme/main_theme.tres" id="2_sexmu"]
+[ext_resource type="PackedScene" uid="uid://cqtivcqiv0ebs" path="res://fillable_bar.tscn" id="3_xnwgd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0nsuc"]
+atlas = ExtResource("1_llh0b")
+region = Rect2(0, 384, 128, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yk7wn"]
+atlas = ExtResource("1_llh0b")
+region = Rect2(128, 384, 128, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uhev8"]
+animations = [{
+"frames": [SubResource("AtlasTexture_0nsuc"), SubResource("AtlasTexture_yk7wn")],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nyhu7"]
+radius = 24.0
+height = 96.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t3dgw"]
+radius = 37.0
+height = 126.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tpvf6"]
+properties/0/path = NodePath(".:goblin_name")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath("NameLabel:text")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath("MessageLabel:text")
+properties/2/spawn = true
+properties/2/sync = true
+properties/3/path = NodePath("MessageLabel:visible")
+properties/3/spawn = true
+properties/3/sync = true
+properties/4/path = NodePath(".:sync_position")
+properties/4/spawn = true
+properties/4/sync = true
+properties/5/path = NodePath("AnimatedSprite2D:animation")
+properties/5/spawn = true
+properties/5/sync = true
+
+[node name="BarrelGoblin" type="CharacterBody2D"]
+script = ExtResource("1_4uagh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+frames = SubResource("SpriteFrames_uhev8")
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 64)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_nyhu7")
+
+[node name="NameLabel" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -57.0
+offset_top = -162.0
+offset_right = 57.0
+offset_bottom = -138.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_sexmu")
+theme_override_colors/font_color = Color(0.780392, 0.780392, 0.780392, 1)
+text = "Barrel Gobbo"
+
+[node name="MessageLabel" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -57.0
+offset_top = -186.0
+offset_right = 57.0
+offset_bottom = -162.0
+grow_horizontal = 2
+theme = ExtResource("2_sexmu")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "..."
+horizontal_alignment = 1
+
+[node name="FillableBar" parent="." instance=ExtResource("3_xnwgd")]
+position = Vector2(0, -130)
+rotation = 0.00225955
+bar_color = Color(1, 0.737255, 0.309804, 1)
+
+[node name="FillableBar2" parent="." instance=ExtResource("3_xnwgd")]
+position = Vector2(0, -112)
+bar_color = Color(1, 0.737255, 0.309804, 1)
+
+[node name="FillableBar3" parent="." instance=ExtResource("3_xnwgd")]
+position = Vector2(0, -94)
+bar_color = Color(1, 0.737255, 0.309804, 1)
+
+[node name="MessageSendTimer" type="Timer" parent="."]
+
+[node name="MessageTimeoutTimer" type="Timer" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 16)
+shape = SubResource("CapsuleShape2D_t3dgw")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_tpvf6")

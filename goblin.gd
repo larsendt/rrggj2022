@@ -7,18 +7,26 @@ enum GoblinState {
 }
 
 const SPEED = 100.0
+const MAX_HEALTH = 10.0
 
 @onready var sprite = $AnimatedSprite2D
 @export var goblin_state: GoblinState = GoblinState.IDLING
 @export var sync_position: Vector2 = Vector2.ZERO
-@export var goblin_name: String = "Gobbo":
+
+@export var goblin_name: String = "Snog":
     set(new_name):
         goblin_name = new_name
         $NameLabel.text = new_name
 
+@export var health: float = MAX_HEALTH:
+    set(new_health):
+        health = new_health
+        $FillableBar.current_value = health
+
 var direction: Vector2 = Vector2.ZERO
 
 func _ready():
+    $FillableBar.max_value = MAX_HEALTH
     if is_auth():
         $MessageSendTimer.timeout.connect(self._do_shit_talk)
         $MessageTimeoutTimer.timeout.connect(self._message_timeout)
@@ -56,11 +64,15 @@ func is_auth():
         return false
 
 func do_hit():
-    send_message("Ow!")
     self.goblin_state = GoblinState.HURTING
     self.sprite.play("hurt")
     self.direction = Vector2.ZERO
-    $NextStateTimer.start(0.5)
+    self.health -= 1
+    if self.health <= 0:
+        send_message("AAAaaaaaa...")
+        queue_free()
+    else:
+        $NextStateTimer.start(0.5)
 
 func _do_shit_talk():
     send_message(TextGenerators.generate_goblin_message())
@@ -70,7 +82,7 @@ func send_message(msg):
     $MessageLabel.text = msg
     $MessageLabel.visible = true
     $MessageTimeoutTimer.start()
-    $MessageSendTimer.start(randi_range(5, 15))
+    $MessageSendTimer.start(randi_range(15, 60))
 
 func _message_timeout():
     $MessageLabel.visible = false

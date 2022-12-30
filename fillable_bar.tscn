@@ -1,7 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://cqtivcqiv0ebs"]
+[gd_scene load_steps=17 format=3 uid="uid://cqtivcqiv0ebs"]
 
 [ext_resource type="Texture2D" uid="uid://c6g3uid5j5ltf" path="res://assets/sprites/fillable_bar.png" id="1_04e3l"]
+[ext_resource type="Shader" path="res://fillable_bar.gdshader" id="1_q4e4u"]
 [ext_resource type="Script" path="res://fillable_bar.gd" id="2_ab1ai"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3mud8"]
+shader = ExtResource("1_q4e4u")
+shader_parameter/bar_color = null
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_08t1m"]
 atlas = ExtResource("1_04e3l")
@@ -51,6 +56,21 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_seobj"]
+properties/0/path = NodePath(".:max_value")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:current_value")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath(".:bar_color")
+properties/2/spawn = true
+properties/2/sync = true
+
 [node name="FillableBar" type="AnimatedSprite2D"]
+material = SubResource("ShaderMaterial_3mud8")
 frames = SubResource("SpriteFrames_ayata")
 script = ExtResource("2_ab1ai")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_seobj")

@@ -1,9 +1,10 @@
 extends Node2D
 
 const SERVER_PORT = 7567
-const MAX_ENEMIES = 8
+const MAX_ENEMIES = 5
 const Player = preload("res://player.tscn")
 const Goblin = preload("res://goblin.tscn")
+const BarrelGoblin = preload("res://barrel_goblin.tscn")
 
 @onready var multiplayer_info: Label = find_child("MultiplayerInfo")
 @onready var player_message_input: LineEdit = find_child("PlayerMessageInput")
@@ -24,6 +25,7 @@ func _ready():
 
     if multiplayer.get_unique_id() == 1:
         $GobboSpawnTimer.timeout.connect(self.create_gobbo)
+        $BarrelGobboSpawnTimer.timeout.connect(self.create_barrel_gobbo)
 
     GameState.player_name_updated.connect(self._update_player_name)
     GameState.player_message_received.connect(self._on_player_message)
@@ -69,6 +71,21 @@ func create_gobbo():
     var goblin = Goblin.instantiate()
     var goblin_name = TextGenerators.generate_goblin_name()
     goblin.name = goblin_name + " " + str(randi())
+    goblin.goblin_name = goblin_name
+    goblin.global_position = spawner.global_position
+    $YSort/Enemies.add_child(goblin)
+
+func create_barrel_gobbo():
+    if multiplayer.get_unique_id() != 1:
+        return
+
+    if $YSort/Enemies.get_node_or_null("BarrelGobbo") != null:
+        return
+    
+    var spawner = await $Spawners.pick_spawner()
+    var goblin = BarrelGoblin.instantiate()
+    var goblin_name = TextGenerators.generate_goblin_name()
+    goblin.name = "BarrelGobbo"
     goblin.goblin_name = goblin_name
     goblin.global_position = spawner.global_position
     $YSort/Enemies.add_child(goblin)
