@@ -1,64 +1,65 @@
-[gd_scene load_steps=15 format=3 uid="uid://br8pt2gjjab6c"]
+[gd_scene load_steps=16 format=3 uid="uid://br8pt2gjjab6c"]
 
 [ext_resource type="Texture2D" uid="uid://cl6j7gffurrq4" path="res://assets/sprites/goblin.png" id="1_6i3ll"]
 [ext_resource type="Script" path="res://goblin.gd" id="1_ynp0p"]
 [ext_resource type="Theme" uid="uid://7vsyfmueweyk" path="res://theme/main_theme.tres" id="3_3livg"]
+[ext_resource type="PackedScene" uid="uid://cqtivcqiv0ebs" path="res://fillable_bar.tscn" id="4_7hilr"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qj2l2"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wjv1c"]
 radius = 21.0
 height = 94.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_kjw2l"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_2u8fn"]
 atlas = ExtResource("1_6i3ll")
 region = Rect2(0, 0, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_y5xd4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_4k1pg"]
 atlas = ExtResource("1_6i3ll")
 region = Rect2(128, 192, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_i6nk2"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gjj3c"]
 atlas = ExtResource("1_6i3ll")
 region = Rect2(0, 0, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_jch6r"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_42737"]
 atlas = ExtResource("1_6i3ll")
 region = Rect2(128, 0, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_axxiq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukj20"]
 atlas = ExtResource("1_6i3ll")
 region = Rect2(256, 0, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5oe88"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_3knut"]
 atlas = ExtResource("1_6i3ll")
 region = Rect2(384, 0, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_d1lic"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_iugu5"]
 atlas = ExtResource("1_6i3ll")
 region = Rect2(0, 192, 128, 192)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_622ba"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_kduu5"]
 animations = [{
-"frames": [SubResource("AtlasTexture_kjw2l"), SubResource("AtlasTexture_y5xd4")],
+"frames": [SubResource("AtlasTexture_2u8fn"), SubResource("AtlasTexture_4k1pg")],
 "loop": true,
 "name": &"hurt",
 "speed": 15.0
 }, {
-"frames": [SubResource("AtlasTexture_i6nk2"), SubResource("AtlasTexture_jch6r")],
+"frames": [SubResource("AtlasTexture_gjj3c"), SubResource("AtlasTexture_42737")],
 "loop": true,
 "name": &"idle",
 "speed": 3.0
 }, {
-"frames": [SubResource("AtlasTexture_axxiq"), SubResource("AtlasTexture_5oe88"), SubResource("AtlasTexture_d1lic")],
+"frames": [SubResource("AtlasTexture_ukj20"), SubResource("AtlasTexture_3knut"), SubResource("AtlasTexture_iugu5")],
 "loop": true,
 "name": &"walk",
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6eo5l"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kyexr"]
 radius = 33.0
 height = 126.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fmnle"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_nsok4"]
 properties/0/path = NodePath(".:goblin_state")
 properties/0/spawn = true
 properties/0/sync = true
@@ -87,11 +88,11 @@ script = ExtResource("1_ynp0p")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 38)
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_qj2l2")
+shape = SubResource("CapsuleShape2D_wjv1c")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -32)
-frames = SubResource("SpriteFrames_622ba")
+frames = SubResource("SpriteFrames_kduu5")
 animation = &"idle"
 playing = true
 
@@ -100,14 +101,14 @@ collision_layer = 4
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-shape = SubResource("CapsuleShape2D_6eo5l")
+shape = SubResource("CapsuleShape2D_kyexr")
 
 [node name="NextStateTimer" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_fmnle")
+replication_config = SubResource("SceneReplicationConfig_nsok4")
 
 [node name="MessageTimeoutTimer" type="Timer" parent="."]
 wait_time = 3.0
@@ -125,9 +126,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -64.0
-offset_top = -120.0
+offset_top = -144.0
 offset_right = 64.0
-offset_bottom = -96.0
+offset_bottom = -120.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_3livg")
@@ -143,9 +144,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -64.0
-offset_top = -96.0
+offset_top = -120.0
 offset_right = 64.0
-offset_bottom = -72.0
+offset_bottom = -96.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_3livg")
@@ -153,3 +154,6 @@ theme_override_colors/font_color = Color(0.733333, 0.733333, 0.733333, 1)
 theme_override_constants/shadow_outline_size = 1
 text = "Gobbo"
 horizontal_alignment = 1
+
+[node name="FillableBar" parent="." instance=ExtResource("4_7hilr")]
+position = Vector2(0, -88)

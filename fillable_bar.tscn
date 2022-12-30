@@ -1,0 +1,56 @@
+[gd_scene load_steps=14 format=3 uid="uid://cqtivcqiv0ebs"]
+
+[ext_resource type="Texture2D" uid="uid://c6g3uid5j5ltf" path="res://assets/sprites/fillable_bar.png" id="1_04e3l"]
+[ext_resource type="Script" path="res://fillable_bar.gd" id="2_ab1ai"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_08t1m"]
+atlas = ExtResource("1_04e3l")
+region = Rect2(0, 0, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3hwos"]
+atlas = ExtResource("1_04e3l")
+region = Rect2(0, 16, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0tcfw"]
+atlas = ExtResource("1_04e3l")
+region = Rect2(0, 32, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r7tqs"]
+atlas = ExtResource("1_04e3l")
+region = Rect2(0, 48, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6vtgc"]
+atlas = ExtResource("1_04e3l")
+region = Rect2(0, 64, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4kyht"]
+atlas = ExtResource("1_04e3l")
+region = Rect2(0, 80, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_asafl"]
+atlas = ExtResource("1_04e3l")
+region = Rect2(0, 96, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yhhrx"]
+atlas = ExtResource("1_04e3l")
+region = Rect2(0, 112, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fkxoy"]
+atlas = ExtResource("1_04e3l")
+region = Rect2(0, 128, 128, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5wd7"]
+atlas = ExtResource("1_04e3l")
+region = Rect2(0, 144, 128, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ayata"]
+animations = [{
+"frames": [SubResource("AtlasTexture_08t1m"), SubResource("AtlasTexture_3hwos"), SubResource("AtlasTexture_0tcfw"), SubResource("AtlasTexture_r7tqs"), SubResource("AtlasTexture_6vtgc"), SubResource("AtlasTexture_4kyht"), SubResource("AtlasTexture_asafl"), SubResource("AtlasTexture_yhhrx"), SubResource("AtlasTexture_fkxoy"), SubResource("AtlasTexture_a5wd7")],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="FillableBar" type="AnimatedSprite2D"]
+frames = SubResource("SpriteFrames_ayata")
+script = ExtResource("2_ab1ai")
