@@ -2,14 +2,18 @@ extends Node2D
 
 var swung: bool = false
 var swinging: bool = false
+@export var base_rotation: float = 0.0
+@export var swing_rotation: float = 0.0
 
 func _ready():
     $SwingAnimation.animation_finished.connect(self._finished_swinging)
     if multiplayer.get_unique_id() == 1:
         $Area2D.area_entered.connect(self._area_entered)
 
-func swing(cursor_angle):
-    var prefix
+func _physics_process(_delta):
+    rotation = base_rotation + swing_rotation - (PI/2)
+
+func swing():
     var suffix
     if swinging:
         return
@@ -19,16 +23,7 @@ func swing(cursor_angle):
     else:
         suffix = ""
 
-    if (cursor_angle > 0 and cursor_angle < PI/4) or (cursor_angle < 0 and cursor_angle > -PI/4):
-        prefix = "Right"
-    elif cursor_angle < -PI/4 and cursor_angle > -3*PI/4:
-        prefix = "Top"
-    elif cursor_angle < -3*PI/4 or cursor_angle > 3*PI/4:
-        prefix = "Left"
-    else:
-        prefix = "Bottom"
-
-    $SwingAnimation.play(prefix + "Swing" + suffix)
+    $SwingAnimation.play("Swing" + suffix)
     swung = not swung
     swinging = true
 

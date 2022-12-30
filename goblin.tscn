@@ -1,0 +1,118 @@
+[gd_scene load_steps=13 format=3 uid="uid://br8pt2gjjab6c"]
+
+[ext_resource type="Texture2D" uid="uid://cl6j7gffurrq4" path="res://assets/sprites/goblin.png" id="1_6i3ll"]
+[ext_resource type="Script" path="res://goblin.gd" id="1_ynp0p"]
+[ext_resource type="Theme" uid="uid://7vsyfmueweyk" path="res://theme/main_theme.tres" id="3_3livg"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qj2l2"]
+radius = 21.0
+height = 94.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i6nk2"]
+atlas = ExtResource("1_6i3ll")
+region = Rect2(0, 0, 128, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jch6r"]
+atlas = ExtResource("1_6i3ll")
+region = Rect2(128, 0, 128, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_axxiq"]
+atlas = ExtResource("1_6i3ll")
+region = Rect2(256, 0, 128, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5oe88"]
+atlas = ExtResource("1_6i3ll")
+region = Rect2(384, 0, 128, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d1lic"]
+atlas = ExtResource("1_6i3ll")
+region = Rect2(0, 192, 128, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_622ba"]
+animations = [{
+"frames": [SubResource("AtlasTexture_i6nk2"), SubResource("AtlasTexture_jch6r")],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [SubResource("AtlasTexture_axxiq"), SubResource("AtlasTexture_5oe88"), SubResource("AtlasTexture_d1lic")],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6eo5l"]
+radius = 33.0
+height = 126.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fmnle"]
+properties/0/path = NodePath(".:goblin_state")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:sync_position")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath("AnimatedSprite2D:animation")
+properties/2/spawn = true
+properties/2/sync = true
+properties/3/path = NodePath("MessageLabel:text")
+properties/3/spawn = true
+properties/3/sync = true
+properties/4/path = NodePath("MessageLabel:visible")
+properties/4/spawn = true
+properties/4/sync = true
+
+[node name="Goblin" type="CharacterBody2D"]
+script = ExtResource("1_ynp0p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 38)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_qj2l2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -32)
+frames = SubResource("SpriteFrames_622ba")
+animation = &"walk"
+playing = true
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CapsuleShape2D_6eo5l")
+
+[node name="NextStateTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_fmnle")
+
+[node name="MessageTimeoutTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="MessageSendTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="MessageLabel" type="Label" parent="."]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -96.0
+offset_right = 64.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_3livg")
+theme_override_colors/font_color = Color(0.992157, 0.992157, 0.992157, 1)
+theme_override_constants/shadow_outline_size = 1
+text = "Some shit here"
+horizontal_alignment = 1

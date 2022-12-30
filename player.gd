@@ -5,6 +5,11 @@ const SPEED = 150
 @export var sync_position: Vector2 = Vector2.ZERO
 @export var sync_velocity: Vector2 = Vector2.ZERO
 @export var sync_cursor_angle: float = 0.0
+@export var sync_hurting: bool = false:
+    set(hurting):
+        sync_hurting = hurting
+        if hurting:
+            $HurtTimer.start()
 
 var player_name = "Player ???":
     set(new_name):
@@ -15,6 +20,7 @@ func _enter_tree():
     $Input/InputSynchronizer.set_multiplayer_authority(str(name).to_int())
 
 func _ready():
+    $HurtTimer.timeout.connect(func(): sync_hurting = false)
     $MessageTimer.timeout.connect(self.hide_message)
     if node_is_locally_controlled():
         $Camera2D.current = true
@@ -35,12 +41,15 @@ func _physics_process(_delta):
         sync_position = position
         sync_velocity = velocity
         sync_cursor_angle = $Input.cursor_angle
-        $RedArrow.rotation = sync_cursor_angle
     else:
         position = sync_position
-        $RedArrow.rotation = sync_cursor_angle
 
-    if sync_velocity.length() > 0:
+    $RedArrow.rotation = sync_cursor_angle
+    $Weapon.base_rotation = sync_cursor_angle
+
+    if sync_hurting:
+        $PlayerSprite.play("hurt")
+    elif sync_velocity.length() > 0:
         $PlayerSprite.play("walk")
     else:
         $PlayerSprite.play("idle")
@@ -57,7 +66,7 @@ func _physics_process(_delta):
 
 func server_swing_weapon():
     assert(multiplayer.get_unique_id() == 1)
-    $Weapon.swing(sync_cursor_angle)
+    $Weapon.swing()
 
 func node_is_locally_controlled():
     # single player or we control this node
@@ -90,4 +99,5 @@ func hide_message():
     $MessageLabel.visible = false
 
 func do_hit():
+    self.sync_hurting = true
     $HurtSound.play()

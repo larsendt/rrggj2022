@@ -11,9 +11,10 @@ signal disconnected_from_server()
 @export var player_ids_by_name = {}
 var server_message_log = []
 
-signal player_name_updated(id, player_name)
-signal broadcast_message_received(id, msg)
-signal player_message_received(id, msg)
+signal player_name_updated(id: int, player_name: String)
+signal broadcast_message_received(id:, msg: String)
+signal player_message_received(id: int, msg: String)
+signal enemy_message_received(name: String, msg: String)
 
 func start_server(port):
     var peer = ENetMultiplayerPeer.new()
@@ -39,6 +40,12 @@ func rpc_send_player_message(m):
     if multiplayer.get_unique_id() == 1:
         server_message_log.push_back(["player_message", multiplayer.get_remote_sender_id(), m])
 
+@rpc(authority, call_local, reliable, 1)
+func rpc_send_enemy_message(enemy_name, m):
+    emit_signal("enemy_message_received", enemy_name, m)
+    if multiplayer.get_unique_id() == 1:
+        server_message_log.push_back(["enemy_message", enemy_name, m])
+
 @rpc(any_peer, call_local, reliable, 1)
 func rpc_broadcast_message(m):
     print("[local: %d] [caller: %d] [broadcast]: %s" % [multiplayer.get_unique_id(), multiplayer.get_remote_sender_id(), m])
@@ -60,7 +67,6 @@ func rpc_update_player_name(player_name):
             msg("Name %s is already owned by player %d" % [player_name, player_ids_by_name[previous_name]])
             return
 
-    print("%d received update %s from %d" % [multiplayer.get_unique_id(), player_name, multiplayer.get_remote_sender_id()])
     player_names_by_id[remote_id] = player_name
     player_ids_by_name[player_name] = remote_id
     player_ids_by_name.erase(previous_name)
@@ -75,6 +81,8 @@ func backfill_message_log(message_log):
             emit_signal("broadcast_message_received", row[1], row[2])
         elif row[0] == "player_message":
             emit_signal("player_message_received", row[1], row[2])
+        elif row[0] == "enemy_message":
+            emit_signal("enemy_message_received", row[1], row[2])
         else:
             print("Unknown backfill type ", row)
 

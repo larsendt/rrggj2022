@@ -1,7 +1,9 @@
 extends Node2D
 
 const SERVER_PORT = 7567
+const MAX_ENEMIES = 8
 const Player = preload("res://player.tscn")
+const Goblin = preload("res://goblin.tscn")
 
 @onready var multiplayer_info: Label = find_child("MultiplayerInfo")
 @onready var player_message_input: LineEdit = find_child("PlayerMessageInput")
@@ -20,8 +22,12 @@ func _ready():
     $PlayerSpawner.spawned.connect(self._on_spawn)
     server_message_timer.timeout.connect(func(): server_message_label.visible = false)
 
+    if multiplayer.get_unique_id() == 1:
+        $GobboSpawnTimer.timeout.connect(self.create_gobbo)
+
     GameState.player_name_updated.connect(self._update_player_name)
     GameState.player_message_received.connect(self._on_player_message)
+    GameState.enemy_message_received.connect(self._on_enemy_message)
     GameState.broadcast_message_received.connect(self._on_broadcast_message)
 
     if LocalData.is_server:
@@ -50,10 +56,23 @@ func create_player(id):
     player.global_position = spawner.global_position
     player.find_child("Input").set_multiplayer_authority(id)
 
-    $Players.add_child(player)
+    $YSort/Players.add_child(player)
+
+func create_gobbo():
+    if multiplayer.get_unique_id() != 1:
+        return
+
+    if $YSort/Enemies.get_child_count() >= MAX_ENEMIES:
+        return
+    
+    var spawner = await $Spawners.pick_spawner()
+    var goblin = Goblin.instantiate()
+    goblin.name = str(randi())
+    goblin.global_position = spawner.global_position
+    $YSort/Enemies.add_child(goblin)
 
 func _player_left(id):
-    $Players.get_node(str(id)).queue_free()
+    $YSort/Players.get_node(str(id)).queue_free()
 
 func _player_joined(id):
     create_player(id)
@@ -65,23 +84,23 @@ func _on_spawn(node):
 func _connected_to_server():
     LocalData.connected = true
     connecting_menu.visible = false
-    await get_tree().create_timer(0.25).timeout
+    # wooooo race condition
+    await get_tree().create_timer(1.0).timeout
     GameState.rpc("rpc_update_player_name", LocalData.player_name)
 
 func _update_player_name(id: int, player_name: String):
-    var node = $Players.get_node(str(id))
+    var node = $YSort/Players.get_node(str(id))
     if node:
         node.player_name = player_name
 
 func _on_player_message(id: int, m: String):
     $MessageNotificationSound.play()
     if id == 1:
-        print("Server sent a message: ", m)
         server_message_label.text = "[color=#CCCCCC]Server:[/color] %s" % m
         server_message_label.visible = true
         server_message_timer.start()
     else:
-        var node = $Players.get_node(str(id))
+        var node = $YSort/Players.get_node(str(id))
         if node:
             node.display_message(m)
 
@@ -95,8 +114,12 @@ func _on_player_message(id: int, m: String):
 
     message_log_label.text += "[color=#999]%s:[/color] %s\n" % [sender_name, m]
 
+func _on_enemy_message(enemy_name: String, m: String):
+    $MessageNotificationSound.play()
+    message_log_label.text += "[color=#0f0]%s:[/color] %s\n" % [enemy_name, m]
+
 func _on_broadcast_message(_id: int, m: String):
-    message_log_label.text += "[color=#970](B)[/color][color=#999]%s[/color]\n" % m
+    message_log_label.text += "[color=#999]%s[/color]\n" % m
 
 func send_player_message(msg):
     GameState.rpc("rpc_send_player_message", msg)
