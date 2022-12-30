@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://q02gdtlakjpn"]
+
+[ext_resource type="Script" path="res://text_generators.gd" id="1_ws10w"]
+
+[node name="TextGenerators" type="Node"]
+script = ExtResource("1_ws10w")

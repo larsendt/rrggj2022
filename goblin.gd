@@ -1,15 +1,9 @@
 extends CharacterBody2D
 
-const SHIT_TALK_MESSAGES = [
-    "You suck!",
-    "Your face sucks!",
-    "You walk weird!",
-    "You smell!",
-]
-
 enum GoblinState {
     IDLING,
     WALKING,
+    HURTING,
 }
 
 const SPEED = 100.0
@@ -17,6 +11,10 @@ const SPEED = 100.0
 @onready var sprite = $AnimatedSprite2D
 @export var goblin_state: GoblinState = GoblinState.IDLING
 @export var sync_position: Vector2 = Vector2.ZERO
+@export var goblin_name: String = "Gobbo":
+    set(new_name):
+        goblin_name = new_name
+        $NameLabel.text = new_name
 
 var direction: Vector2 = Vector2.ZERO
 
@@ -58,15 +56,17 @@ func is_auth():
         return false
 
 func do_hit():
-    send_message("AAAaaaaa...")
-    queue_free()
+    send_message("Ow!")
+    self.goblin_state = GoblinState.HURTING
+    self.sprite.play("hurt")
+    self.direction = Vector2.ZERO
+    $NextStateTimer.start(0.5)
 
 func _do_shit_talk():
-    var msg = SHIT_TALK_MESSAGES[randi() % len(SHIT_TALK_MESSAGES)]
-    send_message(msg)
+    send_message(TextGenerators.generate_goblin_message())
 
 func send_message(msg):
-    GameState.rpc("rpc_send_enemy_message", "Gobbo", msg)
+    GameState.rpc("rpc_send_enemy_message", self.goblin_name, msg)
     $MessageLabel.text = msg
     $MessageLabel.visible = true
     $MessageTimeoutTimer.start()

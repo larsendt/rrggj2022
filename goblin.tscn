@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://br8pt2gjjab6c"]
+[gd_scene load_steps=15 format=3 uid="uid://br8pt2gjjab6c"]
 
 [ext_resource type="Texture2D" uid="uid://cl6j7gffurrq4" path="res://assets/sprites/goblin.png" id="1_6i3ll"]
 [ext_resource type="Script" path="res://goblin.gd" id="1_ynp0p"]
@@ -7,6 +7,14 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qj2l2"]
 radius = 21.0
 height = 94.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kjw2l"]
+atlas = ExtResource("1_6i3ll")
+region = Rect2(0, 0, 128, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y5xd4"]
+atlas = ExtResource("1_6i3ll")
+region = Rect2(128, 192, 128, 192)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i6nk2"]
 atlas = ExtResource("1_6i3ll")
@@ -30,6 +38,11 @@ region = Rect2(0, 192, 128, 192)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_622ba"]
 animations = [{
+"frames": [SubResource("AtlasTexture_kjw2l"), SubResource("AtlasTexture_y5xd4")],
+"loop": true,
+"name": &"hurt",
+"speed": 15.0
+}, {
 "frames": [SubResource("AtlasTexture_i6nk2"), SubResource("AtlasTexture_jch6r")],
 "loop": true,
 "name": &"idle",
@@ -61,6 +74,12 @@ properties/3/sync = true
 properties/4/path = NodePath("MessageLabel:visible")
 properties/4/spawn = true
 properties/4/sync = true
+properties/5/path = NodePath("NameLabel:text")
+properties/5/spawn = true
+properties/5/sync = true
+properties/6/path = NodePath(".:goblin_name")
+properties/6/spawn = true
+properties/6/sync = true
 
 [node name="Goblin" type="CharacterBody2D"]
 script = ExtResource("1_ynp0p")
@@ -73,7 +92,7 @@ shape = SubResource("CapsuleShape2D_qj2l2")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -32)
 frames = SubResource("SpriteFrames_622ba")
-animation = &"walk"
+animation = &"idle"
 playing = true
 
 [node name="Hitbox" type="Area2D" parent="."]
@@ -106,13 +125,31 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -64.0
-offset_top = -96.0
+offset_top = -120.0
 offset_right = 64.0
-offset_bottom = -72.0
+offset_bottom = -96.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_3livg")
 theme_override_colors/font_color = Color(0.992157, 0.992157, 0.992157, 1)
 theme_override_constants/shadow_outline_size = 1
 text = "Some shit here"
+horizontal_alignment = 1
+
+[node name="NameLabel" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -96.0
+offset_right = 64.0
+offset_bottom = -72.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_3livg")
+theme_override_colors/font_color = Color(0.733333, 0.733333, 0.733333, 1)
+theme_override_constants/shadow_outline_size = 1
+text = "Gobbo"
 horizontal_alignment = 1

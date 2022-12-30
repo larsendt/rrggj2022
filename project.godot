@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 LocalData="*res://local_data.tscn"
 GameState="*res://game_state.tscn"
+TextGenerators="*res://text_generators.tscn"
 
 [display]
 

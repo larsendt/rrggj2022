@@ -67,7 +67,9 @@ func create_gobbo():
     
     var spawner = await $Spawners.pick_spawner()
     var goblin = Goblin.instantiate()
-    goblin.name = str(randi())
+    var goblin_name = TextGenerators.generate_goblin_name()
+    goblin.name = goblin_name + " " + str(randi())
+    goblin.goblin_name = goblin_name
     goblin.global_position = spawner.global_position
     $YSort/Enemies.add_child(goblin)
 
