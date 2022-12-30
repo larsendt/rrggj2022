@@ -1,9 +1,12 @@
 extends CharacterBody2D
 
+class_name Goblin
+
 enum GoblinState {
     IDLING,
     WALKING,
     HURTING,
+    DYING,
 }
 
 const SPEED = 100.0
@@ -15,8 +18,8 @@ const MAX_HEALTH = 10.0
 
 @export var goblin_name: String = "Snog":
     set(new_name):
-        goblin_name = new_name
-        $NameLabel.text = new_name
+        goblin_name = name_prefix() + new_name
+        $NameLabel.text = goblin_name
 
 @export var health: float = MAX_HEALTH:
     set(new_health):
@@ -24,6 +27,20 @@ const MAX_HEALTH = 10.0
         $FillableBar.current_value = health
 
 var direction: Vector2 = Vector2.ZERO
+
+########## Overridable Stuff ##############
+
+func name_prefix() -> String:
+    return ""
+
+func shit_talk_message() -> String:
+    return TextGenerators.generate_goblin_message()
+
+func death_message() -> String:
+    return "AAAAAAAAAAAAAaaaaa..."
+
+
+######## End Overridable Stuff ###########
 
 func _ready():
     $FillableBar.max_value = MAX_HEALTH
@@ -35,6 +52,11 @@ func _ready():
 func _physics_process(_delta):
     if is_auth():
         velocity = direction * SPEED
+        if velocity.x > 0:
+            $AnimatedSprite2D.flip_h = true
+        else:
+            $AnimatedSprite2D.flip_h = false
+
         move_and_slide()
         sync_position = position
     else:
@@ -69,13 +91,13 @@ func do_hit():
     self.direction = Vector2.ZERO
     self.health -= 1
     if self.health <= 0:
-        send_message("AAAaaaaaa...")
+        send_message(death_message())
         queue_free()
     else:
         $NextStateTimer.start(0.5)
 
 func _do_shit_talk():
-    send_message(TextGenerators.generate_goblin_message())
+    send_message(shit_talk_message())
 
 func send_message(msg):
     GameState.rpc("rpc_send_enemy_message", self.goblin_name, msg)

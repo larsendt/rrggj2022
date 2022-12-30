@@ -26,6 +26,10 @@ func _ready():
     if multiplayer.get_unique_id() == 1:
         $GobboSpawnTimer.timeout.connect(self.create_gobbo)
         $BarrelGobboSpawnTimer.timeout.connect(self.create_barrel_gobbo)
+        $UI/ServerMenu.visible = true
+        $UI/ServerMenu.camera_selected.connect(self._camera_selected)
+    else:
+        $UI/ServerMenu.visible = false
 
     GameState.player_name_updated.connect(self._update_player_name)
     GameState.player_message_received.connect(self._on_player_message)
@@ -154,3 +158,10 @@ func _on_player_done_typing():
     # this is null on the server
     if local_player:
         local_player.get_node("Input").player_typing = false
+
+func _camera_selected(id):
+    if id == 0:
+        $FreeCamera.current = true
+    else:
+        var player = $YSort/Players.get_node(str(id))
+        player.get_node("Camera2D").current = true

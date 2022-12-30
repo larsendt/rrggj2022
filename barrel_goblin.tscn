@@ -1,9 +1,17 @@
-[gd_scene load_steps=11 format=3 uid="uid://rk6i7hw87yml"]
+[gd_scene load_steps=16 format=3 uid="uid://rk6i7hw87yml"]
 
 [ext_resource type="Script" path="res://barrel_goblin.gd" id="1_4uagh"]
 [ext_resource type="Texture2D" uid="uid://cl6j7gffurrq4" path="res://assets/sprites/goblin.png" id="1_llh0b"]
 [ext_resource type="Theme" uid="uid://7vsyfmueweyk" path="res://theme/main_theme.tres" id="2_sexmu"]
 [ext_resource type="PackedScene" uid="uid://cqtivcqiv0ebs" path="res://fillable_bar.tscn" id="3_xnwgd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ge0v"]
+atlas = ExtResource("1_llh0b")
+region = Rect2(0, 576, 128, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_28k43"]
+atlas = ExtResource("1_llh0b")
+region = Rect2(128, 576, 128, 192)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0nsuc"]
 atlas = ExtResource("1_llh0b")
@@ -13,12 +21,34 @@ region = Rect2(0, 384, 128, 192)
 atlas = ExtResource("1_llh0b")
 region = Rect2(128, 384, 128, 192)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gej61"]
+atlas = ExtResource("1_llh0b")
+region = Rect2(256, 384, 128, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_btkhf"]
+atlas = ExtResource("1_llh0b")
+region = Rect2(128, 384, 128, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7icsc"]
+atlas = ExtResource("1_llh0b")
+region = Rect2(384, 384, 128, 192)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_uhev8"]
 animations = [{
+"frames": [SubResource("AtlasTexture_3ge0v"), SubResource("AtlasTexture_28k43")],
+"loop": true,
+"name": &"hurt",
+"speed": 15.0
+}, {
 "frames": [SubResource("AtlasTexture_0nsuc"), SubResource("AtlasTexture_yk7wn")],
 "loop": true,
-"name": &"default",
+"name": &"idle",
 "speed": 3.0
+}, {
+"frames": [SubResource("AtlasTexture_gej61"), SubResource("AtlasTexture_btkhf"), SubResource("AtlasTexture_7icsc")],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nyhu7"]
@@ -54,6 +84,7 @@ script = ExtResource("1_4uagh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 frames = SubResource("SpriteFrames_uhev8")
+animation = &"idle"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -68,9 +99,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -57.0
-offset_top = -162.0
+offset_top = -133.0
 offset_right = 57.0
-offset_bottom = -138.0
+offset_bottom = -109.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -79,13 +110,14 @@ theme_override_colors/font_color = Color(0.780392, 0.780392, 0.780392, 1)
 text = "Barrel Gobbo"
 
 [node name="MessageLabel" type="Label" parent="."]
+visible = false
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -57.0
-offset_top = -186.0
+offset_top = -158.0
 offset_right = 57.0
-offset_bottom = -162.0
+offset_bottom = -134.0
 grow_horizontal = 2
 theme = ExtResource("2_sexmu")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
@@ -93,21 +125,22 @@ text = "..."
 horizontal_alignment = 1
 
 [node name="FillableBar" parent="." instance=ExtResource("3_xnwgd")]
-position = Vector2(0, -130)
+position = Vector2(0, -96)
 rotation = 0.00225955
-bar_color = Color(1, 0.737255, 0.309804, 1)
-
-[node name="FillableBar2" parent="." instance=ExtResource("3_xnwgd")]
-position = Vector2(0, -112)
-bar_color = Color(1, 0.737255, 0.309804, 1)
-
-[node name="FillableBar3" parent="." instance=ExtResource("3_xnwgd")]
-position = Vector2(0, -94)
-bar_color = Color(1, 0.737255, 0.309804, 1)
+bar_color = Color(0.784314, 0.105882, 0, 1)
 
 [node name="MessageSendTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
 
 [node name="MessageTimeoutTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="NextStateTimer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 4
