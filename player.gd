@@ -31,13 +31,13 @@ func _ready():
     $Input.weapon_swung.connect(self.server_swing_weapon)
 
 
-func _physics_process(_delta):
+func _physics_process(delta):
     if node_is_locally_controlled():
         $Input.update(global_position, get_global_mouse_position())
 
     if is_auth():
-        velocity = $Input.direction * SPEED
-        move_and_slide()
+        velocity = $Input.direction * SPEED * delta
+        move_and_collide(velocity)
         sync_position = position
         sync_velocity = velocity
         sync_cursor_angle = $Input.cursor_angle

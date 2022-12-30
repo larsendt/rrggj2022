@@ -81,6 +81,9 @@ properties/5/sync = true
 properties/6/path = NodePath(".:goblin_name")
 properties/6/spawn = true
 properties/6/sync = true
+properties/7/path = NodePath("AnimatedSprite2D:speed_scale")
+properties/7/spawn = true
+properties/7/sync = true
 
 [node name="Goblin" type="CharacterBody2D"]
 script = ExtResource("1_ynp0p")

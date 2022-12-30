@@ -9,7 +9,8 @@ enum GoblinState {
     DYING,
 }
 
-const SPEED = 100.0
+const DEFAULT_SPEED = 100.0
+var SPEED = DEFAULT_SPEED
 const MAX_HEALTH = 10.0
 
 @onready var sprite = $AnimatedSprite2D
@@ -24,6 +25,12 @@ const MAX_HEALTH = 10.0
 @export var health: float = MAX_HEALTH:
     set(new_health):
         health = new_health
+        if new_health < 5:
+            SPEED = DEFAULT_SPEED * 3
+            $AnimatedSprite2D.speed_scale = 3.0
+        else:
+            SPEED = DEFAULT_SPEED
+            $AnimatedSprite2D.speed_scale = 1.0
         $FillableBar.current_value = health
 
 var direction: Vector2 = Vector2.ZERO
@@ -49,15 +56,15 @@ func _ready():
         $MessageTimeoutTimer.timeout.connect(self._message_timeout)
         $NextStateTimer.timeout.connect(self._pick_next_state)
 
-func _physics_process(_delta):
+func _physics_process(delta):
     if is_auth():
-        velocity = direction * SPEED
+        velocity = direction * SPEED * delta
         if velocity.x > 0:
             $AnimatedSprite2D.flip_h = true
         else:
             $AnimatedSprite2D.flip_h = false
 
-        move_and_slide()
+        move_and_collide(velocity)
         sync_position = position
     else:
         position = sync_position
