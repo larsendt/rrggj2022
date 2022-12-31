@@ -1,10 +1,13 @@
 extends Node2D
 
+class_name TestScene
+
 const SERVER_PORT = 7567
-const MAX_ENEMIES = 5
+const MAX_ENEMIES = 8
 const Player = preload("res://player.tscn")
 const Goblin = preload("res://goblin.tscn")
 const BarrelGoblin = preload("res://barrel_goblin.tscn")
+const Donut = preload("res://donut.tscn")
 
 @onready var multiplayer_info: Label = find_child("MultiplayerInfo")
 @onready var player_message_input: LineEdit = find_child("PlayerMessageInput")
@@ -12,6 +15,7 @@ const BarrelGoblin = preload("res://barrel_goblin.tscn")
 @onready var server_message_timer: Timer = find_child("ServerMessageTimer")
 @onready var message_log_label: RichTextLabel = find_child("MessageLogLabel")
 @onready var connecting_menu: Control = find_child("ConnectingMenu")
+@onready var projectiles: Node2D = find_child("Projectiles")
 
 var local_player = null
 
@@ -24,6 +28,7 @@ func _ready():
     server_message_timer.timeout.connect(func(): server_message_label.visible = false)
 
     if multiplayer.get_unique_id() == 1:
+        pass
         $GobboSpawnTimer.timeout.connect(self.create_gobbo)
         $BarrelGobboSpawnTimer.timeout.connect(self.create_barrel_gobbo)
         $UI/ServerMenu.visible = true
@@ -68,6 +73,10 @@ func create_gobbo():
     if multiplayer.get_unique_id() != 1:
         return
 
+    if not Configs.enable_enemies:
+        print("Not enemies")
+        return
+
     if $YSort/Enemies.get_child_count() >= MAX_ENEMIES:
         return
     
@@ -81,6 +90,9 @@ func create_gobbo():
 
 func create_barrel_gobbo():
     if multiplayer.get_unique_id() != 1:
+        return
+
+    if not Configs.enable_enemies:
         return
 
     if $YSort/Enemies.get_node_or_null("BarrelGobbo") != null:
@@ -165,3 +177,19 @@ func _camera_selected(id):
     else:
         var player = $YSort/Players.get_node(str(id))
         player.get_node("Camera2D").current = true
+
+@rpc(authority, call_local, reliable)
+func spawn_projectile(projectile_type: String, initial_position: Vector2, node_name: String, properties: Dictionary):
+    var node
+    match projectile_type:
+        "donut":
+            node = create_donut_projectile(properties)
+    node.global_position = initial_position
+    node.name = node_name
+    projectiles.add_child(node, true)
+    
+func create_donut_projectile(properties: Dictionary) -> Donut:
+    var donut: Donut = Donut.instantiate()
+    donut.damage = properties["damage"]
+    donut.max_throw_distance = properties["max_throw_distance"]
+    return donut 

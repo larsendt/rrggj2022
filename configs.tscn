@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmk3n1ebnp558"]
+
+[ext_resource type="Script" path="res://configs.gd" id="1_kio86"]
+
+[node name="Configs" type="Node"]
+script = ExtResource("1_kio86")

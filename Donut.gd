@@ -33,17 +33,23 @@ func _ready():
 
 func _finished_throwing():
     sprite.play("flashing")
-    # flash_sound.play()
+    if Configs.enable_annoying_sounds:
+        flash_sound.play()
 
-    await get_tree().create_timer(0.5).timeout
+    await get_tree().create_timer(0.75).timeout
 
-    # flash_sound.stop()
+    flash_sound.stop()
     sprite.visible = false
-    explosion_effect.emitting = true
-    smoke_effect.emitting = true
-    explosion_effect.visible = true
-    smoke_effect.visible = true
-    explosion_sound.play()
+
+    if Configs.enable_particles:
+        explosion_effect.emitting = true
+        smoke_effect.emitting = true
+        explosion_effect.visible = true
+        smoke_effect.visible = true
+    
+    if Configs.enable_annoying_sounds:
+        explosion_sound.play()
+
     collision_shape.disabled = false
 
     await get_tree().create_timer(0.25).timeout

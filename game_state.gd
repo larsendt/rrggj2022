@@ -35,6 +35,8 @@ func msg(m):
 
 @rpc(any_peer, call_local, reliable, 1)
 func rpc_send_player_message(m):
+    if not Configs.enable_messages:
+        return
     print("[local: %d] [caller: %d] [say]: %s" % [multiplayer.get_unique_id(), multiplayer.get_remote_sender_id(), m])
     emit_signal("player_message_received", multiplayer.get_remote_sender_id(), m)
     if multiplayer.get_unique_id() == 1:
@@ -42,12 +44,16 @@ func rpc_send_player_message(m):
 
 @rpc(authority, call_local, reliable, 1)
 func rpc_send_enemy_message(enemy_name, m):
+    if not Configs.enable_messages:
+        return
     emit_signal("enemy_message_received", enemy_name, m)
     if multiplayer.get_unique_id() == 1:
         server_message_log.push_back(["enemy_message", enemy_name, m])
 
 @rpc(any_peer, call_local, reliable, 1)
 func rpc_broadcast_message(m):
+    if not Configs.enable_messages:
+        return
     print("[local: %d] [caller: %d] [broadcast]: %s" % [multiplayer.get_unique_id(), multiplayer.get_remote_sender_id(), m])
     emit_signal("broadcast_message_received", multiplayer.get_remote_sender_id(), m)
     if multiplayer.get_unique_id() == 1:
@@ -55,6 +61,9 @@ func rpc_broadcast_message(m):
 
 @rpc(any_peer, call_local, reliable)
 func rpc_update_player_name(player_name):
+    if not Configs.enable_messages:
+        return
+
     if player_name == "server" or player_name == "Server":
         msg("Can't pick the name 'Server'")
         return
@@ -76,6 +85,9 @@ func rpc_update_player_name(player_name):
 
 @rpc(authority, call_remote, reliable)
 func backfill_message_log(message_log):
+    if not Configs.enable_messages:
+        return
+
     for row in message_log:
         if row[0] == "broadcast_message":
             emit_signal("broadcast_message_received", row[1], row[2])
@@ -88,6 +100,9 @@ func backfill_message_log(message_log):
 
 @rpc(authority, call_remote, reliable)
 func backfill_player_names(new_player_names_by_id):
+    if not Configs.enable_messages:
+        return
+
     for id in new_player_names_by_id:
         if id == multiplayer.get_unique_id():
             # don't update our own name
@@ -97,12 +112,13 @@ func backfill_player_names(new_player_names_by_id):
         emit_signal("player_name_updated", id, player_name)
         player_names_by_id[id] = player_name 
         player_ids_by_name[player_name] = id
-        
 
 func _player_joined(id):
     var player_name = "Player %d" % id
     player_ids_by_name[player_name] = id
     player_names_by_id[id] = player_name
+    # race condition?
+    # await get_tree().create_timer(0.5).timeout
     emit_signal("player_joined", id)
     rpc_id(id, "backfill_message_log", server_message_log)
     rpc_id(id, "backfill_player_names", player_names_by_id)

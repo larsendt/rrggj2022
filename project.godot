@@ -30,6 +30,11 @@ _global_script_classes=[{
 "path": "res://goblin.gd"
 }, {
 "base": "Node2D",
+"class": &"TestScene",
+"language": &"GDScript",
+"path": "res://test_scene.gd"
+}, {
+"base": "Node2D",
 "class": &"Weapon",
 "language": &"GDScript",
 "path": "res://weapon.gd"
@@ -39,6 +44,7 @@ _global_script_class_icons={
 "BouleTornado": "",
 "Donut": "",
 "Goblin": "",
+"TestScene": "",
 "Weapon": ""
 }
 
@@ -54,6 +60,7 @@ config/icon="res://icon.svg"
 LocalData="*res://local_data.tscn"
 GameState="*res://game_state.tscn"
 TextGenerators="*res://text_generators.tscn"
+Configs="*res://configs.tscn"
 
 [display]
 

@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+const DonutGrenade = preload("res://donut_grenade.tscn")
 const SPEED = 150
 
 @export var sync_position: Vector2 = Vector2.ZERO
@@ -29,6 +30,10 @@ func _ready():
         $Camera2D.current = false
 
     $Input.weapon_swung.connect(self.server_swing_weapon)
+
+    if Configs.enable_weapons:
+        var donut = DonutGrenade.instantiate()
+        $Weapons.add_child(donut)
 
 
 func _physics_process(delta):
