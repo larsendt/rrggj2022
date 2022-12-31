@@ -5,4 +5,3 @@
 - Accessories
 - Croissant boomerang
 - Baguette spear
-- Donut bomb

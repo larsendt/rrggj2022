@@ -196,3 +196,5 @@ position = Vector2(0, -29)
 
 [node name="DonutGrenade" parent="Weapons" instance=ExtResource("10_iof6m")]
 position = Vector2(-32, 16)
+projectile_frequency_multiplier = 0.1
+additional_projectile_count = 10

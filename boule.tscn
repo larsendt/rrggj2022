@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://d3yuplqclsy23" path="res://assets/sprites/boule.png" id="1_j7oxa"]
 [ext_resource type="Script" path="res://boule.gd" id="2_w26ib"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_woieb"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_6x4eu"]
 radius = 15.0333
 
 [node name="Boule" type="Node2D"]
@@ -18,4 +18,4 @@ collision_layer = 0
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_woieb")
+shape = SubResource("CircleShape2D_6x4eu")
