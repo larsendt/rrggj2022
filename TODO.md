@@ -3,3 +3,6 @@
 - Barrel goblin drops Borg Barrel
 - More weapons
 - Accessories
+- Croissant boomerang
+- Baguette spear
+- Donut bomb

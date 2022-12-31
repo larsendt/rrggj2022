@@ -9,13 +9,37 @@
 config_version=5
 
 _global_script_classes=[{
+"base": "Node2D",
+"class": &"Boule",
+"language": &"GDScript",
+"path": "res://boule.gd"
+}, {
+"base": "Node2D",
+"class": &"BouleTornado",
+"language": &"GDScript",
+"path": "res://boule_tornado.gd"
+}, {
+"base": "Node2D",
+"class": &"Donut",
+"language": &"GDScript",
+"path": "res://Donut.gd"
+}, {
 "base": "CharacterBody2D",
 "class": &"Goblin",
 "language": &"GDScript",
 "path": "res://goblin.gd"
+}, {
+"base": "RefCounted",
+"class": &"Weapon",
+"language": &"GDScript",
+"path": "res://weapon.gd"
 }]
 _global_script_class_icons={
-"Goblin": ""
+"Boule": "",
+"BouleTornado": "",
+"Donut": "",
+"Goblin": "",
+"Weapon": ""
 }
 
 [application]

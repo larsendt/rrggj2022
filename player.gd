@@ -45,7 +45,7 @@ func _physics_process(delta):
         position = sync_position
 
     $RedArrow.rotation = sync_cursor_angle
-    $Weapon.base_rotation = sync_cursor_angle
+    # $Weapons/Baguette.base_rotation = sync_cursor_angle
 
     if sync_hurting:
         $PlayerSprite.play("hurt")
@@ -66,7 +66,7 @@ func _physics_process(delta):
 
 func server_swing_weapon():
     assert(multiplayer.get_unique_id() == 1)
-    $Weapon.swing()
+    # $Weapons/Baguette.swing()
 
 func node_is_locally_controlled():
     # single player or we control this node

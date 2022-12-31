@@ -1,0 +1,187 @@
+[gd_scene load_steps=23 format=3 uid="uid://0nh003rq4u83"]
+
+[ext_resource type="Script" path="res://Donut.gd" id="1_s8t4k"]
+[ext_resource type="Texture2D" uid="uid://cbrxnmfsley2n" path="res://assets/sprites/donut.png" id="2_qcyd0"]
+[ext_resource type="Texture2D" uid="uid://c2w5ftk2rocjk" path="res://assets/sprites/smoke.png" id="3_tldqv"]
+[ext_resource type="AudioStream" uid="uid://dx246jbmughdi" path="res://assets/sfx/donut_explosion.wav" id="4_w4siw"]
+[ext_resource type="AudioStream" uid="uid://w6u0w506i6ws" path="res://assets/sfx/donut_flash_sound.wav" id="5_ldyet"]
+
+[sub_resource type="Curve2D" id="Curve2D_w7pms"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, -300, 0, 0, 0, 0, 0, 0, -96, 136)
+}
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_6g343"]
+offsets = PackedFloat32Array(0, 0.312336, 1)
+colors = PackedColorArray(1, 0.872238, 0.494631, 1, 0.99407, 0.700107, 7.70092e-07, 1, 1, 0.0368291, 0.0474677, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8hwkg"]
+gradient = SubResource("Gradient_6g343")
+
+[sub_resource type="Curve" id="Curve_xa0mt"]
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_qnl4h"]
+curve = SubResource("Curve_xa0mt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ridvw"]
+particle_flag_disable_z = true
+spread = 180.0
+gravity = Vector3(0, 98, 0)
+initial_velocity_min = 290.66
+initial_velocity_max = 290.66
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 2.0
+scale_max = 4.0
+scale_curve = SubResource("CurveTexture_qnl4h")
+color_ramp = SubResource("GradientTexture1D_8hwkg")
+
+[sub_resource type="Gradient" id="Gradient_xf1ur"]
+offsets = PackedFloat32Array(0, 0.992126)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_blc8d"]
+gradient = SubResource("Gradient_xf1ur")
+
+[sub_resource type="Curve" id="Curve_rgck4"]
+max_value = 4.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 3.41818), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_wnmpp"]
+curve = SubResource("Curve_rgck4")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6h520"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 90.0
+gravity = Vector3(0, -30, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 30.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+linear_accel_min = -11.22
+linear_accel_max = -11.22
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_wnmpp")
+color_ramp = SubResource("GradientTexture1D_blc8d")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_srfbg"]
+atlas = ExtResource("2_qcyd0")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5lf7w"]
+atlas = ExtResource("2_qcyd0")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kskrc"]
+atlas = ExtResource("2_qcyd0")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vkxfo"]
+animations = [{
+"frames": [SubResource("AtlasTexture_srfbg")],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [SubResource("AtlasTexture_5lf7w"), SubResource("AtlasTexture_kskrc")],
+"loop": true,
+"name": &"flashing",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x862u"]
+radius = 56.5685
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_xghqr"]
+properties/0/path = NodePath("Path2D/PathFollow2D:position")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath("Path2D/PathFollow2D/ExplosionSound:playing")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath("Path2D/PathFollow2D/FlashSound:playing")
+properties/2/spawn = true
+properties/2/sync = true
+properties/3/path = NodePath("Path2D/PathFollow2D/Sprite2D:animation")
+properties/3/spawn = true
+properties/3/sync = true
+properties/4/path = NodePath("Path2D/PathFollow2D/DonutExplosion:emitting")
+properties/4/spawn = true
+properties/4/sync = true
+properties/5/path = NodePath("Path2D/PathFollow2D/DonutSmoke:emitting")
+properties/5/spawn = true
+properties/5/sync = true
+properties/6/path = NodePath("Path2D/PathFollow2D/Sprite2D:visible")
+properties/6/spawn = true
+properties/6/sync = true
+properties/7/path = NodePath(".:position")
+properties/7/spawn = true
+properties/7/sync = true
+
+[node name="Donut" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_s8t4k")
+throw_time = 0.5
+
+[node name="Path2D" type="Path2D" parent="."]
+y_sort_enabled = true
+curve = SubResource("Curve2D_w7pms")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+y_sort_enabled = true
+rotation = -1.5708
+rotates = false
+loop = false
+
+[node name="DonutExplosion" type="GPUParticles2D" parent="Path2D/PathFollow2D"]
+rotation = 1.5708
+emitting = false
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_ridvw")
+texture = ExtResource("3_tldqv")
+lifetime = 0.25
+one_shot = true
+explosiveness = 0.12
+
+[node name="DonutSmoke" type="GPUParticles2D" parent="Path2D/PathFollow2D"]
+rotation = 1.5708
+emitting = false
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_6h520")
+texture = ExtResource("3_tldqv")
+lifetime = 3.0
+one_shot = true
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="Path2D/PathFollow2D"]
+rotation = 1.5708
+scale = Vector2(0.5, 0.5)
+frames = SubResource("SpriteFrames_vkxfo")
+animation = &"flashing"
+playing = true
+
+[node name="ExplosionSound" type="AudioStreamPlayer2D" parent="Path2D/PathFollow2D"]
+rotation = 1.5708
+stream = ExtResource("4_w4siw")
+volume_db = -5.426
+attenuation = 2.14355
+
+[node name="FlashSound" type="AudioStreamPlayer2D" parent="Path2D/PathFollow2D"]
+stream = ExtResource("5_ldyet")
+volume_db = -4.974
+attenuation = 1.68179
+
+[node name="Area2D" type="Area2D" parent="Path2D/PathFollow2D"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Area2D"]
+shape = SubResource("CircleShape2D_x862u")
+disabled = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_xghqr")

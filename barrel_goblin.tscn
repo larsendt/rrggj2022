@@ -5,61 +5,61 @@
 [ext_resource type="Theme" uid="uid://7vsyfmueweyk" path="res://theme/main_theme.tres" id="2_sexmu"]
 [ext_resource type="PackedScene" uid="uid://cqtivcqiv0ebs" path="res://fillable_bar.tscn" id="3_xnwgd"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3ge0v"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0fshl"]
 atlas = ExtResource("1_llh0b")
 region = Rect2(0, 576, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_28k43"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_pet2f"]
 atlas = ExtResource("1_llh0b")
 region = Rect2(128, 576, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0nsuc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_qcdyr"]
 atlas = ExtResource("1_llh0b")
 region = Rect2(0, 384, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_yk7wn"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_08ert"]
 atlas = ExtResource("1_llh0b")
 region = Rect2(128, 384, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gej61"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_lmmt3"]
 atlas = ExtResource("1_llh0b")
 region = Rect2(256, 384, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_btkhf"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_428bt"]
 atlas = ExtResource("1_llh0b")
 region = Rect2(128, 384, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7icsc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_mu7y4"]
 atlas = ExtResource("1_llh0b")
 region = Rect2(384, 384, 128, 192)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_uhev8"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_6p5x2"]
 animations = [{
-"frames": [SubResource("AtlasTexture_3ge0v"), SubResource("AtlasTexture_28k43")],
+"frames": [SubResource("AtlasTexture_0fshl"), SubResource("AtlasTexture_pet2f")],
 "loop": true,
 "name": &"hurt",
 "speed": 15.0
 }, {
-"frames": [SubResource("AtlasTexture_0nsuc"), SubResource("AtlasTexture_yk7wn")],
+"frames": [SubResource("AtlasTexture_qcdyr"), SubResource("AtlasTexture_08ert")],
 "loop": true,
 "name": &"idle",
 "speed": 3.0
 }, {
-"frames": [SubResource("AtlasTexture_gej61"), SubResource("AtlasTexture_btkhf"), SubResource("AtlasTexture_7icsc")],
+"frames": [SubResource("AtlasTexture_lmmt3"), SubResource("AtlasTexture_428bt"), SubResource("AtlasTexture_mu7y4")],
 "loop": true,
 "name": &"walk",
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nyhu7"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hvr4u"]
 radius = 24.0
 height = 96.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t3dgw"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xwadt"]
 radius = 37.0
 height = 126.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_tpvf6"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2k472"]
 properties/0/path = NodePath(".:goblin_name")
 properties/0/spawn = true
 properties/0/sync = true
@@ -78,19 +78,22 @@ properties/4/sync = true
 properties/5/path = NodePath("AnimatedSprite2D:animation")
 properties/5/spawn = true
 properties/5/sync = true
+properties/6/path = NodePath("AnimatedSprite2D:speed_scale")
+properties/6/spawn = true
+properties/6/sync = true
 
 [node name="BarrelGoblin" type="CharacterBody2D"]
 script = ExtResource("1_4uagh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-frames = SubResource("SpriteFrames_uhev8")
+frames = SubResource("SpriteFrames_6p5x2")
 animation = &"idle"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 64)
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_nyhu7")
+shape = SubResource("CapsuleShape2D_hvr4u")
 
 [node name="NameLabel" type="Label" parent="."]
 anchors_preset = 8
@@ -144,11 +147,11 @@ autostart = true
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 4
-collision_mask = 4
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 16)
-shape = SubResource("CapsuleShape2D_t3dgw")
+shape = SubResource("CapsuleShape2D_xwadt")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_tpvf6")
+replication_config = SubResource("SceneReplicationConfig_2k472")

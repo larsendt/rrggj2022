@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://b0abpv2jkhh5w"]
+
+[ext_resource type="Texture2D" uid="uid://d3yuplqclsy23" path="res://assets/sprites/boule.png" id="1_j7oxa"]
+[ext_resource type="Script" path="res://boule.gd" id="2_w26ib"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_woieb"]
+radius = 15.0333
+
+[node name="Boule" type="Node2D"]
+script = ExtResource("2_w26ib")
+
+[node name="BouleSprite" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_j7oxa")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_woieb")

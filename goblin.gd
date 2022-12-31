@@ -92,11 +92,11 @@ func is_auth():
     else: 
         return false
 
-func do_hit():
+func do_hit(dmg: float):
     self.goblin_state = GoblinState.HURTING
     self.sprite.play("hurt")
     self.direction = Vector2.ZERO
-    self.health -= 1
+    self.health -= dmg
     if self.health <= 0:
         send_message(death_message())
         queue_free()

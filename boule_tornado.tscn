@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlcjklptrpj51"]
+
+[ext_resource type="Script" path="res://boule_tornado.gd" id="1_bcwc1"]
+[ext_resource type="PackedScene" uid="uid://b0abpv2jkhh5w" path="res://boule.tscn" id="1_nv3mm"]
+
+[node name="BouleTornado" type="Node2D"]
+script = ExtResource("1_bcwc1")
+boule_count = 3
+
+[node name="Boule" parent="." instance=ExtResource("1_nv3mm")]

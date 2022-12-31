@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://clc4xn1xcwnld"]
+[gd_scene load_steps=9 format=3 uid="uid://b6j1ssgid2vjp"]
 
-[ext_resource type="Script" path="res://Weapon.gd" id="1_26yhe"]
-[ext_resource type="Texture2D" uid="uid://bditerrg500dh" path="res://assets/sprites/baguette.png" id="2_jy0jy"]
-[ext_resource type="AudioStream" uid="uid://bsxopifnbntca" path="res://assets/sfx/swing.wav" id="3_ni8jn"]
+[ext_resource type="Script" path="res://baguette.gd" id="1_u0uft"]
+[ext_resource type="Texture2D" uid="uid://bditerrg500dh" path="res://assets/sprites/baguette.png" id="2_h6pm3"]
+[ext_resource type="AudioStream" uid="uid://bsxopifnbntca" path="res://assets/sfx/swing.wav" id="3_iddf3"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d4rd8"]
 radius = 6.0
@@ -99,20 +99,20 @@ properties/0/path = NodePath("SwingAnimation:current_animation")
 properties/0/spawn = true
 properties/0/sync = true
 
-[node name="Weapon" type="Node2D"]
+[node name="Baguette" type="Node2D"]
 y_sort_enabled = true
 rotation = 3.14159
-script = ExtResource("1_26yhe")
+script = ExtResource("1_u0uft")
 
 [node name="Baguette" type="Sprite2D" parent="."]
 position = Vector2(-70, 8.99982)
 rotation = 1.5708
 scale = Vector2(0.5, 0.5)
-texture = ExtResource("2_jy0jy")
+texture = ExtResource("2_h6pm3")
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 6
-collision_mask = 6
+collision_layer = 0
+collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(-69, 7.99982)
@@ -125,7 +125,7 @@ libraries = {
 }
 
 [node name="SwingSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_ni8jn")
+stream = ExtResource("3_iddf3")
 volume_db = -6.339
 
 [node name="WeaponSynchronizer" type="MultiplayerSynchronizer" parent="."]

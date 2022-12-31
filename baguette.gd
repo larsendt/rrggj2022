@@ -2,6 +2,7 @@ extends Node2D
 
 var swung: bool = false
 var swinging: bool = false
+@export var damage: float = 1.0
 @export var base_rotation: float = 0.0
 @export var swing_rotation: float = 0.0
 
@@ -31,6 +32,4 @@ func _finished_swinging(_anim_name):
     swinging = false
 
 func _area_entered(area):
-    if area.get_parent() != get_parent():
-        # not us
-        area.get_parent().do_hit()
+    area.get_parent().do_hit(damage)
