@@ -25,6 +25,7 @@ func _ready():
     GameState.broadcast_message_received.connect(self._on_broadcast_message)
 
     find_child("PlayerMessageSendButton").pressed.connect(func(): self.send_player_message(player_message_input.text))
+    find_child("KillGoblinsButton").pressed.connect(self.kill_goblins)
     player_message_input.text_submitted.connect(self.send_player_message)
     player_message_input.focus_entered.connect(self._on_player_typing)
     player_message_input.focus_exited.connect(self._on_player_done_typing)
@@ -65,6 +66,7 @@ func create_player(id):
     player.find_child("Input").set_multiplayer_authority(id)
 
     $YSort/Players.add_child(player)
+    print("============== STats.players =============")
     Stats.players += 1
 
 func create_gobbo():
@@ -106,6 +108,7 @@ func create_barrel_gobbo():
     goblin.initial_global_position = spawner.global_position
     goblin.global_position = spawner.global_position
     $YSort/Enemies.add_child(goblin)
+    print("============ BORG GOB ==============")
     Stats.borg_goblins += 1
 
 func _player_left(id):
@@ -197,3 +200,10 @@ func create_donut_projectile(properties: Dictionary) -> Donut:
     donut.damage = properties["damage"]
     donut.max_throw_distance = properties["max_throw_distance"]
     return donut 
+
+func add_exp(amt: int, exp_position: Vector2):
+    $YSort/ExpManager.add_exp(amt, exp_position)
+
+func kill_goblins():
+    for gobbo in $YSort/Enemies.get_children():
+        gobbo.do_hit(1000)

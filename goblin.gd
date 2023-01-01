@@ -52,6 +52,9 @@ func goblin_type() -> String:
 func initial_health() -> float:
     return Modifiers.goblin_health()
 
+func exp_amt() -> int:
+    return 1
+
 func do_die():
     send_message(death_message())
     Stats.kills += 1
@@ -61,7 +64,7 @@ func do_die():
 ######## End Overridable Stuff ###########
 
 func _ready():
-    portraits.add_portrait(goblin_type(), self.name, self.short_goblin_name(), self.health, self)
+    #portraits.add_portrait(goblin_type(), self.name, self.short_goblin_name(), self.health, self)
 
     # global_position = initial_global_position
 
@@ -144,18 +147,20 @@ func do_hit(dmg: float):
     var current_animation = sprite.animation
     self.sprite.play("hurt")
 
-    await get_tree().create_timer(0.5).timeout
-    self.sprite.play(current_animation)
     self.health -= dmg
     Stats.damage_dealt += dmg
 
     if self.health < 0:
         self.health = 0
 
-    portraits.update_hp(self.name, self.health)
+    await get_tree().create_timer(0.5).timeout
+    self.sprite.play(current_animation)
+
+    #portraits.update_hp(self.name, self.health)
 
     if self.health <= 0:
         do_die()
+        get_tree().get_root().get_node("TestScene").add_exp(exp_amt(), global_position)
         queue_free()
 
 func _do_shit_talk():

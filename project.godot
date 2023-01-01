@@ -132,3 +132,5 @@ swing_weapon={
 2d_physics/layer_1="GeneralCollision"
 2d_physics/layer_2="PlayerHitBox"
 2d_physics/layer_3="EnemyHitBox"
+2d_physics/layer_4="ExpLayer"
+2d_physics/layer_5="ExpPickupLayer"

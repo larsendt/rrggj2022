@@ -24,6 +24,12 @@ properties/5/sync = true
 properties/6/path = NodePath(".:damage_taken")
 properties/6/spawn = true
 properties/6/sync = true
+properties/7/path = NodePath(".:level")
+properties/7/spawn = true
+properties/7/sync = true
+properties/8/path = NodePath(".:experience")
+properties/8/spawn = true
+properties/8/sync = true
 
 [node name="Stats" type="Node"]
 script = ExtResource("1_eooa1")

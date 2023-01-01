@@ -28,6 +28,10 @@ func _enter_tree():
 func _ready():
     $HurtTimer.timeout.connect(func(): sync_hurting = false)
     $MessageTimer.timeout.connect(self.hide_message)
+
+    if multiplayer.is_server():
+        $ExpPickupArea.area_entered.connect(self._pickup_exp)
+
     if node_is_locally_controlled():
         $Camera2D.current = true
         $NameLabel.add_theme_color_override("font_color", "#00FF33")
@@ -113,3 +117,7 @@ func hide_message():
 func do_hit():
     self.sync_hurting = true
     $HurtSound.play()
+
+func _pickup_exp(area: Area2D):
+    Stats.experience += area.get_parent().value
+    area.get_parent().pickup_exp()

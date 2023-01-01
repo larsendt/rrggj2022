@@ -13,4 +13,5 @@ func _player_exited(_body):
     spawner_enabled = true
 
 func do_spawn():
-    $SpawnSound.play()
+    pass
+    #$SpawnSound.play()
