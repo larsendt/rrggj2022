@@ -5,61 +5,61 @@
 [ext_resource type="Theme" uid="uid://7vsyfmueweyk" path="res://theme/main_theme.tres" id="2_sexmu"]
 [ext_resource type="PackedScene" uid="uid://cqtivcqiv0ebs" path="res://fillable_bar.tscn" id="3_xnwgd"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_62lao"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hhudg"]
 atlas = ExtResource("1_llh0b")
 region = Rect2(0, 576, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rjhbh"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6brm"]
 atlas = ExtResource("1_llh0b")
 region = Rect2(128, 576, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_c4f7l"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmw0o"]
 atlas = ExtResource("1_llh0b")
 region = Rect2(0, 384, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_u2aqg"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ykoe"]
 atlas = ExtResource("1_llh0b")
 region = Rect2(128, 384, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_b8qvo"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vrjjd"]
 atlas = ExtResource("1_llh0b")
 region = Rect2(256, 384, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rry4j"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6fy5m"]
 atlas = ExtResource("1_llh0b")
 region = Rect2(128, 384, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ddfeb"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_13ydu"]
 atlas = ExtResource("1_llh0b")
 region = Rect2(384, 384, 128, 192)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_3lsa2"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_li7tn"]
 animations = [{
-"frames": [SubResource("AtlasTexture_62lao"), SubResource("AtlasTexture_rjhbh")],
+"frames": [SubResource("AtlasTexture_hhudg"), SubResource("AtlasTexture_t6brm")],
 "loop": true,
 "name": &"hurt",
 "speed": 15.0
 }, {
-"frames": [SubResource("AtlasTexture_c4f7l"), SubResource("AtlasTexture_u2aqg")],
+"frames": [SubResource("AtlasTexture_rmw0o"), SubResource("AtlasTexture_4ykoe")],
 "loop": true,
 "name": &"idle",
 "speed": 3.0
 }, {
-"frames": [SubResource("AtlasTexture_b8qvo"), SubResource("AtlasTexture_rry4j"), SubResource("AtlasTexture_ddfeb")],
+"frames": [SubResource("AtlasTexture_vrjjd"), SubResource("AtlasTexture_6fy5m"), SubResource("AtlasTexture_13ydu")],
 "loop": true,
 "name": &"walk",
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qdaj4"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m2f46"]
 radius = 24.0
 height = 96.0
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2h1fv"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0xd7v"]
 radius = 37.0
 height = 126.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_jaouq"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_7ru0o"]
 properties/0/path = NodePath(".:goblin_name")
 properties/0/spawn = true
 properties/0/sync = true
@@ -81,19 +81,22 @@ properties/5/sync = true
 properties/6/path = NodePath("AnimatedSprite2D:speed_scale")
 properties/6/spawn = true
 properties/6/sync = true
+properties/7/path = NodePath(".:initial_global_position")
+properties/7/spawn = true
+properties/7/sync = true
 
 [node name="BarrelGoblin" type="CharacterBody2D"]
 script = ExtResource("1_4uagh")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-frames = SubResource("SpriteFrames_3lsa2")
+frames = SubResource("SpriteFrames_li7tn")
 animation = &"idle"
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 64)
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_qdaj4")
+shape = SubResource("CapsuleShape2D_m2f46")
 
 [node name="NameLabel" type="Label" parent="."]
 anchors_preset = 8
@@ -110,6 +113,8 @@ grow_vertical = 2
 size_flags_horizontal = 4
 theme = ExtResource("2_sexmu")
 theme_override_colors/font_color = Color(0.780392, 0.780392, 0.780392, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
 text = "Barrel Gobbo"
 
 [node name="MessageLabel" type="Label" parent="."]
@@ -124,6 +129,8 @@ offset_bottom = -134.0
 grow_horizontal = 2
 theme = ExtResource("2_sexmu")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
 text = "..."
 horizontal_alignment = 1
 
@@ -151,7 +158,7 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 16)
-shape = SubResource("CapsuleShape2D_2h1fv")
+shape = SubResource("CapsuleShape2D_0xd7v")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_jaouq")
+replication_config = SubResource("SceneReplicationConfig_7ru0o")

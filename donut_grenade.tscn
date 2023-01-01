@@ -3,13 +3,13 @@
 [ext_resource type="Script" path="res://donut_grenade.gd" id="1_kyi6t"]
 [ext_resource type="Texture2D" uid="uid://cbrxnmfsley2n" path="res://assets/sprites/donut.png" id="1_mmn2l"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1kccc"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_fpgox"]
 atlas = ExtResource("1_mmn2l")
 region = Rect2(0, 0, 64, 64)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_fyowm"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_lhjid"]
 animations = [{
-"frames": [SubResource("AtlasTexture_1kccc")],
+"frames": [SubResource("AtlasTexture_fpgox")],
 "loop": true,
 "name": &"default",
 "speed": 5.0
@@ -23,4 +23,4 @@ one_shot = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
-frames = SubResource("SpriteFrames_fyowm")
+frames = SubResource("SpriteFrames_lhjid")

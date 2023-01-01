@@ -1,65 +1,66 @@
-[gd_scene load_steps=16 format=3 uid="uid://br8pt2gjjab6c"]
+[gd_scene load_steps=20 format=3 uid="uid://br8pt2gjjab6c"]
 
 [ext_resource type="Texture2D" uid="uid://cl6j7gffurrq4" path="res://assets/sprites/goblin.png" id="1_6i3ll"]
 [ext_resource type="Script" path="res://goblin.gd" id="1_ynp0p"]
 [ext_resource type="Theme" uid="uid://7vsyfmueweyk" path="res://theme/main_theme.tres" id="3_3livg"]
 [ext_resource type="PackedScene" uid="uid://cqtivcqiv0ebs" path="res://fillable_bar.tscn" id="4_7hilr"]
+[ext_resource type="Script" path="res://GoblinState.gd" id="5_lxv4d"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cxaj1"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_y56r7"]
 radius = 21.0
 height = 94.0
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_2dcpt"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_dsyv6"]
 atlas = ExtResource("1_6i3ll")
 region = Rect2(0, 0, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4q6wh"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_1r3dq"]
 atlas = ExtResource("1_6i3ll")
 region = Rect2(128, 192, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_yyomm"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ly6t"]
 atlas = ExtResource("1_6i3ll")
 region = Rect2(0, 0, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1xs8u"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_uwcr8"]
 atlas = ExtResource("1_6i3ll")
 region = Rect2(128, 0, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_v34o5"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_7wmvp"]
 atlas = ExtResource("1_6i3ll")
 region = Rect2(256, 0, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f7j4p"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_rfhri"]
 atlas = ExtResource("1_6i3ll")
 region = Rect2(384, 0, 128, 192)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_miocl"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_aiyoa"]
 atlas = ExtResource("1_6i3ll")
 region = Rect2(0, 192, 128, 192)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_74lp2"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_7u1hk"]
 animations = [{
-"frames": [SubResource("AtlasTexture_2dcpt"), SubResource("AtlasTexture_4q6wh")],
+"frames": [SubResource("AtlasTexture_dsyv6"), SubResource("AtlasTexture_1r3dq")],
 "loop": true,
 "name": &"hurt",
 "speed": 15.0
 }, {
-"frames": [SubResource("AtlasTexture_yyomm"), SubResource("AtlasTexture_1xs8u")],
+"frames": [SubResource("AtlasTexture_6ly6t"), SubResource("AtlasTexture_uwcr8")],
 "loop": true,
 "name": &"idle",
 "speed": 3.0
 }, {
-"frames": [SubResource("AtlasTexture_v34o5"), SubResource("AtlasTexture_f7j4p"), SubResource("AtlasTexture_miocl")],
+"frames": [SubResource("AtlasTexture_7wmvp"), SubResource("AtlasTexture_rfhri"), SubResource("AtlasTexture_aiyoa")],
 "loop": true,
 "name": &"walk",
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dygny"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jl5gn"]
 radius = 33.0
 height = 126.0
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_lb0s5"]
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3vqjn"]
 properties/0/path = NodePath(".:goblin_state")
 properties/0/spawn = true
 properties/0/sync = true
@@ -84,6 +85,18 @@ properties/6/sync = true
 properties/7/path = NodePath("AnimatedSprite2D:speed_scale")
 properties/7/spawn = true
 properties/7/sync = true
+properties/8/path = NodePath(".:initial_global_position")
+properties/8/spawn = true
+properties/8/sync = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cq4x4"]
+radius = 1451.61
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ypp42"]
+radius = 468.004
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e152s"]
+radius = 713.846
 
 [node name="Goblin" type="CharacterBody2D"]
 script = ExtResource("1_ynp0p")
@@ -91,11 +104,11 @@ script = ExtResource("1_ynp0p")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 38)
 rotation = 1.5708
-shape = SubResource("CapsuleShape2D_cxaj1")
+shape = SubResource("CapsuleShape2D_y56r7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -32)
-frames = SubResource("SpriteFrames_74lp2")
+frames = SubResource("SpriteFrames_7u1hk")
 animation = &"idle"
 playing = true
 
@@ -104,14 +117,14 @@ collision_layer = 4
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
-shape = SubResource("CapsuleShape2D_dygny")
+shape = SubResource("CapsuleShape2D_jl5gn")
 
 [node name="NextStateTimer" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_lb0s5")
+replication_config = SubResource("SceneReplicationConfig_3vqjn")
 
 [node name="MessageTimeoutTimer" type="Timer" parent="."]
 wait_time = 3.0
@@ -136,6 +149,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_3livg")
 theme_override_colors/font_color = Color(0.992157, 0.992157, 0.992157, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_outline_size = 1
 text = "Some shit here"
 horizontal_alignment = 1
@@ -154,6 +169,8 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_3livg")
 theme_override_colors/font_color = Color(0.733333, 0.733333, 0.733333, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_outline_size = 1
 text = "Snog"
 horizontal_alignment = 1
@@ -161,3 +178,27 @@ horizontal_alignment = 1
 [node name="FillableBar" parent="." instance=ExtResource("4_7hilr")]
 position = Vector2(0, -88)
 bar_color = Color(0.768627, 0, 0.133333, 1)
+
+[node name="GoblinState" type="Node" parent="."]
+script = ExtResource("5_lxv4d")
+
+[node name="SeekArea" type="Area2D" parent="GoblinState"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoblinState/SeekArea"]
+shape = SubResource("CircleShape2D_cq4x4")
+
+[node name="AttackArea" type="Area2D" parent="GoblinState"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoblinState/AttackArea"]
+shape = SubResource("CircleShape2D_ypp42")
+
+[node name="FleeArea" type="Area2D" parent="GoblinState"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoblinState/FleeArea"]
+shape = SubResource("CircleShape2D_e152s")

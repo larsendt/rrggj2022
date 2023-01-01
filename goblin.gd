@@ -11,18 +11,18 @@ enum GoblinState {
 
 const DEFAULT_SPEED = 100.0
 var SPEED = DEFAULT_SPEED
-const MAX_HEALTH = 10.0
 
 @onready var sprite = $AnimatedSprite2D
 @export var goblin_state: GoblinState = GoblinState.IDLING
 @export var sync_position: Vector2 = Vector2.ZERO
+@export var initial_global_position: Vector2 = Vector2.ZERO
 
 @export var goblin_name: String = "Snog":
     set(new_name):
         goblin_name = name_prefix() + new_name
         $NameLabel.text = goblin_name
 
-@export var health: float = MAX_HEALTH:
+@export var health: float = initial_health():
     set(new_health):
         health = new_health
         if new_health < 5:
@@ -34,11 +34,15 @@ const MAX_HEALTH = 10.0
         $FillableBar.current_value = health
 
 var direction: Vector2 = Vector2.ZERO
+var portrait: GoblinPortrait
 
 ########## Overridable Stuff ##############
 
 func name_prefix() -> String:
     return ""
+
+func short_goblin_name() -> String:
+    return goblin_name.replace("The Honorable ", "")
 
 func shit_talk_message() -> String:
     return TextGenerators.generate_goblin_message()
@@ -46,11 +50,21 @@ func shit_talk_message() -> String:
 func death_message() -> String:
     return "AAAAAAAAAAAAAaaaaa..."
 
+func goblin_type() -> String:
+    return "basic"
+
+func initial_health() -> float:
+    return 10.0
+
 
 ######## End Overridable Stuff ###########
 
 func _ready():
-    $FillableBar.max_value = MAX_HEALTH
+    get_tree().get_root().get_node("TestScene").find_child("Portraits").add_portrait(goblin_type(), self.short_goblin_name(), self.health, self)
+
+    # global_position = initial_global_position
+
+    $FillableBar.max_value = initial_health()
     if is_auth():
         $MessageSendTimer.timeout.connect(self._do_shit_talk)
         $MessageTimeoutTimer.timeout.connect(self._message_timeout)

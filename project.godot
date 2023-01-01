@@ -9,6 +9,11 @@
 config_version=5
 
 _global_script_classes=[{
+"base": "Goblin",
+"class": &"BarrelGoblin",
+"language": &"GDScript",
+"path": "res://barrel_goblin.gd"
+}, {
 "base": "Node2D",
 "class": &"Boule",
 "language": &"GDScript",
@@ -29,6 +34,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://goblin.gd"
 }, {
+"base": "MarginContainer",
+"class": &"GoblinPortrait",
+"language": &"GDScript",
+"path": "res://goblin_portrait.gd"
+}, {
 "base": "Node2D",
 "class": &"TestScene",
 "language": &"GDScript",
@@ -40,10 +50,12 @@ _global_script_classes=[{
 "path": "res://weapon.gd"
 }]
 _global_script_class_icons={
+"BarrelGoblin": "",
 "Boule": "",
 "BouleTornado": "",
 "Donut": "",
 "Goblin": "",
+"GoblinPortrait": "",
 "TestScene": "",
 "Weapon": ""
 }

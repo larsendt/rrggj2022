@@ -3,10 +3,10 @@ extends Node2D
 class_name TestScene
 
 const SERVER_PORT = 7567
-const MAX_ENEMIES = 8
+const MAX_ENEMIES = 50
 const Player = preload("res://player.tscn")
-const Goblin = preload("res://goblin.tscn")
-const BarrelGoblin = preload("res://barrel_goblin.tscn")
+const PackedGoblin = preload("res://goblin.tscn")
+const PackedBarrelGoblin = preload("res://barrel_goblin.tscn")
 const Donut = preload("res://donut.tscn")
 
 @onready var multiplayer_info: Label = find_child("MultiplayerInfo")
@@ -25,6 +25,7 @@ func _ready():
     player_message_input.focus_entered.connect(self._on_player_typing)
     player_message_input.focus_exited.connect(self._on_player_done_typing)
     $PlayerSpawner.spawned.connect(self._on_spawn)
+    $GoblinSpawner.spawned.connect(self._on_goblin_spawn)
     server_message_timer.timeout.connect(func(): server_message_label.visible = false)
 
     if multiplayer.get_unique_id() == 1:
@@ -63,7 +64,7 @@ func create_player(id):
     player.player_name = "Player %d" % id
     player.name = str(id)
 
-    var spawner = await $Spawners.pick_spawner()
+    var spawner = await $PlayerSpawners.pick_spawner()
     player.global_position = spawner.global_position
     player.find_child("Input").set_multiplayer_authority(id)
 
@@ -80,8 +81,8 @@ func create_gobbo():
     if $YSort/Enemies.get_child_count() >= MAX_ENEMIES:
         return
     
-    var spawner = await $Spawners.pick_spawner()
-    var goblin = Goblin.instantiate()
+    var spawner = await $EnemySpawners.pick_spawner()
+    var goblin = PackedGoblin.instantiate()
     var goblin_name = TextGenerators.generate_goblin_name()
     goblin.name = goblin_name + " " + str(randi())
     goblin.goblin_name = goblin_name
@@ -98,11 +99,12 @@ func create_barrel_gobbo():
     if $YSort/Enemies.get_node_or_null("BarrelGobbo") != null:
         return
     
-    var spawner = await $Spawners.pick_spawner()
-    var goblin = BarrelGoblin.instantiate()
+    var spawner = await $EnemySpawners.pick_spawner()
+    var goblin = PackedBarrelGoblin.instantiate()
     var goblin_name = TextGenerators.generate_goblin_name()
     goblin.name = "BarrelGobbo"
     goblin.goblin_name = goblin_name
+    goblin.initial_global_position = spawner.global_position
     goblin.global_position = spawner.global_position
     $YSort/Enemies.add_child(goblin)
 
@@ -115,6 +117,9 @@ func _player_joined(id):
 func _on_spawn(node):
     if str(multiplayer.get_unique_id()) == node.name:
         local_player = node
+
+func _on_goblin_spawn(_node):
+    pass
 
 func _connected_to_server():
     LocalData.connected = true
@@ -147,10 +152,9 @@ func _on_player_message(id: int, m: String):
     else:
         sender_name = "Unk %d" % id
 
-    message_log_label.text += "[color=#999]%s:[/color] %s\n" % [sender_name, m]
+    message_log_label.text += "[color=#03F]%s:[/color] %s\n" % [sender_name, m]
 
 func _on_enemy_message(enemy_name: String, m: String):
-    $MessageNotificationSound.play()
     message_log_label.text += "[color=#0f0]%s:[/color] %s\n" % [enemy_name, m]
 
 func _on_broadcast_message(_id: int, m: String):
