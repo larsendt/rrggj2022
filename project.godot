@@ -49,6 +49,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://player.gd"
 }, {
+"base": "MarginContainer",
+"class": &"Portraits",
+"language": &"GDScript",
+"path": "res://Portraits.gd"
+}, {
 "base": "Node2D",
 "class": &"TestScene",
 "language": &"GDScript",
@@ -68,6 +73,7 @@ _global_script_class_icons={
 "GoblinPortrait": "",
 "GoblinState": "",
 "Player": "",
+"Portraits": "",
 "TestScene": "",
 "Weapon": ""
 }
@@ -86,6 +92,7 @@ GameState="*res://game_state.tscn"
 TextGenerators="*res://text_generators.tscn"
 Configs="*res://configs.tscn"
 Stats="*res://stats.tscn"
+Modifiers="*res://modifiers.tscn"
 
 [display]
 

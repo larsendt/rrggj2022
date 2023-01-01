@@ -20,7 +20,8 @@ var tracked_stats = {
 
 signal stat_updated(stat_id: String, value: String)
 
-@export var game_start_time: float = 0
+@export var game_start_time: float = 0.0
+@export var elapsed_game_time: float = 0.0
 
 @export var players: int = 0:
     set(val):
@@ -61,6 +62,7 @@ func _ready():
 func _update_elapsed_time():
     var now = Time.get_unix_time_from_system()
     var delta = now - game_start_time
+    elapsed_game_time = delta
     var minutes = int(delta / 60)
     var seconds = delta - (minutes * 60)
     var value = "%02d:%02d" % [minutes, seconds]

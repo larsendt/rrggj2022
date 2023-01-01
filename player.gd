@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Player
 
 const DonutGrenade = preload("res://donut_grenade.tscn")
+const BouleTornado = preload("res://boule_tornado.tscn")
 const SPEED = 150
 
 @export var sync_position: Vector2 = Vector2.ZERO
@@ -38,6 +39,8 @@ func _ready():
     if Configs.enable_weapons:
         var donut = DonutGrenade.instantiate()
         $Weapons.add_child(donut)
+        var tornado = BouleTornado.instantiate()
+        $Weapons.add_child(tornado)
 
 
 func _physics_process(delta):

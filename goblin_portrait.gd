@@ -4,7 +4,10 @@ class_name GoblinPortrait
 @export var hp: float:
     set(new_hp):
         hp = new_hp
-        $HPLabel.text = "%d" % hp
+        var hpval = hp
+        if hpval < 1:
+            hpval = 1
+        $HPLabel.text = "%d" % hpval
 
 @export var goblin_name: String:
     set(new_name):

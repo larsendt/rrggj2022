@@ -3,7 +3,7 @@ extends Node2D
 class_name TestScene
 
 const SERVER_PORT = 7567
-const MAX_ENEMIES = 50
+
 const Player = preload("res://player.tscn")
 const PackedGoblin = preload("res://goblin.tscn")
 const PackedBarrelGoblin = preload("res://barrel_goblin.tscn")
@@ -72,10 +72,11 @@ func create_gobbo():
         return
 
     if not Configs.enable_enemies:
-        print("Not enemies")
         return
 
-    if $YSort/Enemies.get_child_count() >= MAX_ENEMIES:
+    $GobboSpawnTimer.start(Modifiers.goblin_spawn_time())
+
+    if $YSort/Enemies.get_child_count() >= Modifiers.max_goblins():
         return
     
     var spawner = await $EnemySpawners.pick_spawner()

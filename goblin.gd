@@ -3,8 +3,11 @@ extends CharacterBody2D
 class_name Goblin
 
 const DEFAULT_SPEED = 100.0
+const RUN_SPEED = 150.0
+const FLEE_SPEED = 250.0
 
-@onready var sprite = $AnimatedSprite2D
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var portraits: Portraits = get_tree().get_root().get_node("TestScene").find_child("Portraits")
 @export var sync_position: Vector2 = Vector2.ZERO
 @export var initial_global_position: Vector2 = Vector2.ZERO
 
@@ -47,7 +50,7 @@ func goblin_type() -> String:
     return "basic"
 
 func initial_health() -> float:
-    return 10.0
+    return Modifiers.goblin_health()
 
 func do_die():
     send_message(death_message())
@@ -58,7 +61,7 @@ func do_die():
 ######## End Overridable Stuff ###########
 
 func _ready():
-    get_tree().get_root().get_node("TestScene").find_child("Portraits").add_portrait(goblin_type(), self.short_goblin_name(), self.health, self)
+    portraits.add_portrait(goblin_type(), self.name, self.short_goblin_name(), self.health, self)
 
     # global_position = initial_global_position
 
@@ -110,20 +113,19 @@ func _state_updated(new_state: GoblinState.GoblinStateType, _target: Node2D):
         GoblinState.GoblinStateType.CHASING:
             self.sprite.play("walk")
             self.sprite.speed_scale = 1.5
-            speed = 1.5 * DEFAULT_SPEED
-            speed = DEFAULT_SPEED
+            speed = RUN_SPEED
             direction = Vector2.ZERO
             self.target = _target
         GoblinState.GoblinStateType.ATTACKING:
             self.sprite.play("walk")
             self.sprite.speed_scale = 3.0
-            speed = 3.0 * DEFAULT_SPEED
+            speed = RUN_SPEED
             direction = Vector2.ZERO
             self.target = _target
         GoblinState.GoblinStateType.FLEEING:
             self.sprite.play("walk")
             self.sprite.speed_scale = 3.0
-            speed = 3.0 * DEFAULT_SPEED
+            speed = FLEE_SPEED
             direction = Vector2.ZERO
             self.target = _target
 
@@ -146,6 +148,11 @@ func do_hit(dmg: float):
     self.sprite.play(current_animation)
     self.health -= dmg
     Stats.damage_dealt += dmg
+
+    if self.health < 0:
+        self.health = 0
+
+    portraits.update_hp(self.name, self.health)
 
     if self.health <= 0:
         do_die()

@@ -1,6 +1,8 @@
 extends Node
 class_name GoblinState
 
+const ATTACK_TIME = 2.5
+
 enum GoblinStateType {
     IDLING,
     WANDERING,
@@ -52,7 +54,7 @@ func _player_entered_area(area_type: AreaType, player: Area2D):
         AreaType.ATTACK:
             if player == targeted_player:
                 current_state = GoblinStateType.ATTACKING
-                await get_tree().create_timer(2.0).timeout
+                await get_tree().create_timer(ATTACK_TIME).timeout
                 current_state = GoblinStateType.FLEEING
         AreaType.FLEE:
             # no action for entering the FLEE zone
