@@ -23,3 +23,11 @@ func do_die():
 
 func exp_amt() -> int:
     return 25
+
+func _ready():
+    super()
+    portraits.add_portrait(goblin_type(), self.name, self.short_goblin_name(), self.health, self)
+
+func do_hit(dmg: float):
+    super(dmg)
+    portraits.update_hp(self.name, self.health)
