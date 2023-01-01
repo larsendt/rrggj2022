@@ -9,7 +9,6 @@ const PackedGoblin = preload("res://goblin.tscn")
 const PackedBarrelGoblin = preload("res://barrel_goblin.tscn")
 const Donut = preload("res://donut.tscn")
 
-@onready var multiplayer_info: Label = find_child("MultiplayerInfo")
 @onready var player_message_input: LineEdit = find_child("PlayerMessageInput")
 @onready var server_message_label: RichTextLabel = find_child("ServerMessageLabel")
 @onready var server_message_timer: Timer = find_child("ServerMessageTimer")
@@ -20,6 +19,11 @@ const Donut = preload("res://donut.tscn")
 var local_player = null
 
 func _ready():
+    GameState.player_name_updated.connect(self._update_player_name)
+    GameState.player_message_received.connect(self._on_player_message)
+    GameState.enemy_message_received.connect(self._on_enemy_message)
+    GameState.broadcast_message_received.connect(self._on_broadcast_message)
+
     find_child("PlayerMessageSendButton").pressed.connect(func(): self.send_player_message(player_message_input.text))
     player_message_input.text_submitted.connect(self.send_player_message)
     player_message_input.focus_entered.connect(self._on_player_typing)
@@ -28,31 +32,23 @@ func _ready():
     $GoblinSpawner.spawned.connect(self._on_goblin_spawn)
     server_message_timer.timeout.connect(func(): server_message_label.visible = false)
 
-    if multiplayer.get_unique_id() == 1:
-        pass
+    if LocalData.is_server:
+        GameState.start_server(LocalData.host_port)
+        GameState.player_joined.connect(self._player_joined)
+        GameState.player_left.connect(self._player_left)
+        connecting_menu.visible = false
+    else:
+        connecting_menu.visible = true
+        GameState.join_server(LocalData.client_address, LocalData.client_port)
+        GameState.connected_to_server.connect(self._connected_to_server)
+
+    if multiplayer.is_server():
         $GobboSpawnTimer.timeout.connect(self.create_gobbo)
         $BarrelGobboSpawnTimer.timeout.connect(self.create_barrel_gobbo)
         $UI/ServerMenu.visible = true
         $UI/ServerMenu.camera_selected.connect(self._camera_selected)
     else:
         $UI/ServerMenu.visible = false
-
-    GameState.player_name_updated.connect(self._update_player_name)
-    GameState.player_message_received.connect(self._on_player_message)
-    GameState.enemy_message_received.connect(self._on_enemy_message)
-    GameState.broadcast_message_received.connect(self._on_broadcast_message)
-
-    if LocalData.is_server:
-        GameState.start_server(LocalData.host_port)
-        GameState.player_joined.connect(self._player_joined)
-        GameState.player_left.connect(self._player_left)
-        multiplayer_info.text = "Server(%d)" % multiplayer.get_unique_id()
-        connecting_menu.visible = false
-    else:
-        connecting_menu.visible = true
-        GameState.join_server(LocalData.client_address, LocalData.client_port)
-        GameState.connected_to_server.connect(self._connected_to_server)
-        multiplayer_info.text = "Client(%d)" % multiplayer.get_unique_id()
 
 func _input(event):
     if event is InputEventKey:
@@ -69,6 +65,7 @@ func create_player(id):
     player.find_child("Input").set_multiplayer_authority(id)
 
     $YSort/Players.add_child(player)
+    Stats.players += 1
 
 func create_gobbo():
     if multiplayer.get_unique_id() != 1:
@@ -88,6 +85,7 @@ func create_gobbo():
     goblin.goblin_name = goblin_name
     goblin.global_position = spawner.global_position
     $YSort/Enemies.add_child(goblin)
+    Stats.goblins += 1
 
 func create_barrel_gobbo():
     if multiplayer.get_unique_id() != 1:
@@ -107,6 +105,7 @@ func create_barrel_gobbo():
     goblin.initial_global_position = spawner.global_position
     goblin.global_position = spawner.global_position
     $YSort/Enemies.add_child(goblin)
+    Stats.borg_goblins += 1
 
 func _player_left(id):
     $YSort/Players.get_node(str(id)).queue_free()

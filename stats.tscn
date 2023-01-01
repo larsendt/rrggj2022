@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://mj3agjedwnva"]
+
+[ext_resource type="Script" path="res://stats.gd" id="1_eooa1"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rfms7"]
+properties/0/path = NodePath(".:game_start_time")
+properties/0/spawn = true
+properties/0/sync = true
+properties/1/path = NodePath(".:players")
+properties/1/spawn = true
+properties/1/sync = true
+properties/2/path = NodePath(".:goblins")
+properties/2/spawn = true
+properties/2/sync = true
+properties/3/path = NodePath(".:borg_goblins")
+properties/3/spawn = true
+properties/3/sync = true
+properties/4/path = NodePath(".:kills")
+properties/4/spawn = true
+properties/4/sync = true
+properties/5/path = NodePath(".:damage_dealt")
+properties/5/spawn = true
+properties/5/sync = true
+properties/6/path = NodePath(".:damage_taken")
+properties/6/spawn = true
+properties/6/sync = true
+
+[node name="Stats" type="Node"]
+script = ExtResource("1_eooa1")
+
+[node name="TimeUpdateTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_rfms7")

@@ -15,3 +15,8 @@ func goblin_type() -> String:
 
 func initial_health() -> float:
     return 999.0
+
+func do_die():
+    send_message(death_message())
+    Stats.kills += 1
+    Stats.borg_goblins -= 1

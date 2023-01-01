@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://5oefb3or75rv"]
+
+[ext_resource type="Script" path="res://stat_box.gd" id="1_on4c5"]
+
+[node name="StatBox" type="HBoxContainer"]
+script = ExtResource("1_on4c5")
+
+[node name="NameLabel" type="Label" parent="."]
+offset_top = 4.0
+offset_right = 36.0
+offset_bottom = 30.0
+theme_override_colors/font_color = Color(0.32549, 0.32549, 0.32549, 1)
+text = "Stat:"
+
+[node name="ValueLabel" type="Label" parent="."]
+offset_left = 40.0
+offset_right = 98.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 22
+text = "value"

@@ -49,6 +49,11 @@ func goblin_type() -> String:
 func initial_health() -> float:
     return 10.0
 
+func do_die():
+    send_message(death_message())
+    Stats.kills += 1
+    Stats.goblins -= 1
+
 
 ######## End Overridable Stuff ###########
 
@@ -140,9 +145,10 @@ func do_hit(dmg: float):
     await get_tree().create_timer(0.5).timeout
     self.sprite.play(current_animation)
     self.health -= dmg
+    Stats.damage_dealt += dmg
 
     if self.health <= 0:
-        send_message(death_message())
+        do_die()
         queue_free()
 
 func _do_shit_talk():

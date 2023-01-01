@@ -85,6 +85,7 @@ LocalData="*res://local_data.tscn"
 GameState="*res://game_state.tscn"
 TextGenerators="*res://text_generators.tscn"
 Configs="*res://configs.tscn"
+Stats="*res://stats.tscn"
 
 [display]
 
