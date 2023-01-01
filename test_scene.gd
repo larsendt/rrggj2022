@@ -98,7 +98,7 @@ func create_barrel_gobbo():
 
     if $YSort/Enemies.get_node_or_null("BarrelGobbo") != null:
         return
-    
+
     var spawner = await $EnemySpawners.pick_spawner()
     var goblin = PackedBarrelGoblin.instantiate()
     var goblin_name = TextGenerators.generate_goblin_name()

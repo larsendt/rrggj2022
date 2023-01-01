@@ -2,18 +2,9 @@ extends CharacterBody2D
 
 class_name Goblin
 
-enum GoblinState {
-    IDLING,
-    WALKING,
-    HURTING,
-    DYING,
-}
-
 const DEFAULT_SPEED = 100.0
-var SPEED = DEFAULT_SPEED
 
 @onready var sprite = $AnimatedSprite2D
-@export var goblin_state: GoblinState = GoblinState.IDLING
 @export var sync_position: Vector2 = Vector2.ZERO
 @export var initial_global_position: Vector2 = Vector2.ZERO
 
@@ -25,16 +16,18 @@ var SPEED = DEFAULT_SPEED
 @export var health: float = initial_health():
     set(new_health):
         health = new_health
-        if new_health < 5:
-            SPEED = DEFAULT_SPEED * 3
-            $AnimatedSprite2D.speed_scale = 3.0
-        else:
-            SPEED = DEFAULT_SPEED
-            $AnimatedSprite2D.speed_scale = 1.0
+        # if new_health < 5:
+        #     SPEED = DEFAULT_SPEED * 3
+        #     $AnimatedSprite2D.speed_scale = 3.0
+        # else:
+        #     SPEED = DEFAULT_SPEED
+        #     $AnimatedSprite2D.speed_scale = 1.0
         $FillableBar.current_value = health
 
 var direction: Vector2 = Vector2.ZERO
+var target: Node2D = null
 var portrait: GoblinPortrait
+var speed = DEFAULT_SPEED
 
 ########## Overridable Stuff ##############
 
@@ -66,34 +59,68 @@ func _ready():
 
     $FillableBar.max_value = initial_health()
     if is_auth():
+        $GoblinState.state_updated.connect(self._state_updated)
+        $GoblinState.damaged.connect(self.do_hit)
         $MessageSendTimer.timeout.connect(self._do_shit_talk)
         $MessageTimeoutTimer.timeout.connect(self._message_timeout)
-        $NextStateTimer.timeout.connect(self._pick_next_state)
 
-func _physics_process(delta):
+func _physics_process(_delta):
     if is_auth():
-        velocity = direction * SPEED * delta
+        var dir
+        if self.target == null:
+            dir = direction
+        elif $GoblinState.current_state == GoblinState.GoblinStateType.FLEEING:
+            dir = self.global_position.direction_to(target.global_position)
+            # run awayyyyyyyyyyy
+            dir *= -1
+        else:
+            dir = self.global_position.direction_to(target.global_position)
+
+        velocity = dir * speed #* delta
+
         if velocity.x > 0:
             $AnimatedSprite2D.flip_h = true
         else:
             $AnimatedSprite2D.flip_h = false
 
-        move_and_collide(velocity)
+        move_and_slide()
         sync_position = position
     else:
         position = sync_position
 
-func _pick_next_state():
-    var i = randi() % 3
-    match i:
-        0:
-            self.goblin_state = GoblinState.IDLING
-            self.sprite.play("idle")
-            self.direction = Vector2.ZERO
-        1:
-            self.goblin_state = GoblinState.WALKING
+func _state_updated(new_state: GoblinState.GoblinStateType, _target: Node2D):
+    match new_state:
+        GoblinState.GoblinStateType.WANDERING:
             self.sprite.play("walk")
-            self.direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
+            self.sprite.speed_scale = 1.0
+            speed = DEFAULT_SPEED
+            direction = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
+            self.target = null
+        GoblinState.GoblinStateType.IDLING:
+            self.sprite.play("idle")
+            self.sprite.speed_scale = 1.0
+            speed = DEFAULT_SPEED
+            direction = Vector2.ZERO
+            self.target = null
+        GoblinState.GoblinStateType.CHASING:
+            self.sprite.play("walk")
+            self.sprite.speed_scale = 1.5
+            speed = 1.5 * DEFAULT_SPEED
+            speed = DEFAULT_SPEED
+            direction = Vector2.ZERO
+            self.target = _target
+        GoblinState.GoblinStateType.ATTACKING:
+            self.sprite.play("walk")
+            self.sprite.speed_scale = 3.0
+            speed = 3.0 * DEFAULT_SPEED
+            direction = Vector2.ZERO
+            self.target = _target
+        GoblinState.GoblinStateType.FLEEING:
+            self.sprite.play("walk")
+            self.sprite.speed_scale = 3.0
+            speed = 3.0 * DEFAULT_SPEED
+            direction = Vector2.ZERO
+            self.target = _target
 
 func is_auth():
     # single player or we are the authority for this node
@@ -107,15 +134,16 @@ func is_auth():
         return false
 
 func do_hit(dmg: float):
-    self.goblin_state = GoblinState.HURTING
+    var current_animation = sprite.animation
     self.sprite.play("hurt")
-    self.direction = Vector2.ZERO
+
+    await get_tree().create_timer(0.5).timeout
+    self.sprite.play(current_animation)
     self.health -= dmg
+
     if self.health <= 0:
         send_message(death_message())
         queue_free()
-    else:
-        $NextStateTimer.start(0.5)
 
 func _do_shit_talk():
     send_message(shit_talk_message())

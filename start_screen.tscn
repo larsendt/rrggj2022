@@ -170,7 +170,6 @@ Typewriter font: [url]dafont.com/another-typewriter.font[/url]"
 fit_content_height = true
 
 [node name="Toggles" type="MarginContainer" parent="CanvasLayer"]
-visible = false
 offset_right = 40.0
 offset_bottom = 40.0
 theme = ExtResource("2_0rssw")

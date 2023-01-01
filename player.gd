@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 const DonutGrenade = preload("res://donut_grenade.tscn")
 const SPEED = 150
@@ -12,13 +13,16 @@ const SPEED = 150
         if hurting:
             $HurtTimer.start()
 
+
 var player_name = "Player ???":
     set(new_name):
         player_name = new_name
         $NameLabel.text = new_name
 
+
 func _enter_tree():
     $Input/InputSynchronizer.set_multiplayer_authority(str(name).to_int())
+
 
 func _ready():
     $HurtTimer.timeout.connect(func(): sync_hurting = false)

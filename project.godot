@@ -39,6 +39,16 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://goblin_portrait.gd"
 }, {
+"base": "Node",
+"class": &"GoblinState",
+"language": &"GDScript",
+"path": "res://GoblinState.gd"
+}, {
+"base": "CharacterBody2D",
+"class": &"Player",
+"language": &"GDScript",
+"path": "res://player.gd"
+}, {
 "base": "Node2D",
 "class": &"TestScene",
 "language": &"GDScript",
@@ -56,6 +66,8 @@ _global_script_class_icons={
 "Donut": "",
 "Goblin": "",
 "GoblinPortrait": "",
+"GoblinState": "",
+"Player": "",
 "TestScene": "",
 "Weapon": ""
 }

@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://rk6i7hw87yml"]
+[gd_scene load_steps=17 format=3 uid="uid://rk6i7hw87yml"]
 
 [ext_resource type="Script" path="res://barrel_goblin.gd" id="1_4uagh"]
 [ext_resource type="Texture2D" uid="uid://cl6j7gffurrq4" path="res://assets/sprites/goblin.png" id="1_llh0b"]
 [ext_resource type="Theme" uid="uid://7vsyfmueweyk" path="res://theme/main_theme.tres" id="2_sexmu"]
 [ext_resource type="PackedScene" uid="uid://cqtivcqiv0ebs" path="res://fillable_bar.tscn" id="3_xnwgd"]
+[ext_resource type="PackedScene" uid="uid://bm0j5xfs2kxq6" path="res://goblin_state.tscn" id="5_dpruk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hhudg"]
 atlas = ExtResource("1_llh0b")
@@ -162,3 +163,5 @@ shape = SubResource("CapsuleShape2D_0xd7v")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_7ru0o")
+
+[node name="GoblinState" parent="." instance=ExtResource("5_dpruk")]

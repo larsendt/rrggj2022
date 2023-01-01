@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://bm0j5xfs2kxq6"]
+
+[ext_resource type="Script" path="res://GoblinState.gd" id="1_j3tdo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cq4x4"]
+radius = 3541.16
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ypp42"]
+radius = 361.332
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e152s"]
+radius = 677.007
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jl5gn"]
+radius = 33.0
+height = 126.0
+
+[node name="GoblinState" type="Node2D"]
+script = ExtResource("1_j3tdo")
+
+[node name="SeekArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SeekArea"]
+shape = SubResource("CircleShape2D_cq4x4")
+
+[node name="AttackArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+shape = SubResource("CircleShape2D_ypp42")
+
+[node name="FleeArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FleeArea"]
+shape = SubResource("CircleShape2D_e152s")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CapsuleShape2D_jl5gn")
+
+[node name="NextStateTimer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true

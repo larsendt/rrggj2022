@@ -22,11 +22,18 @@ class_name GoblinPortrait
                 $VBoxContainer/BasicPortrait.visible = false
                 $VBoxContainer/BarrelPortrait.visible = true 
 
-@export var goblin: Goblin
+var weak_goblin: WeakRef
+@export var goblin: Goblin:
+    set(gobbo):
+        goblin = gobbo
+        weak_goblin = weakref(goblin)
 
 func _process(_delta):
-    var goblin_screen_pos = goblin.get_global_transform_with_canvas() * Vector2.ZERO
-    # goblin_screen_pos.y *= -1
+    if not weak_goblin.get_ref():
+        queue_free()
+        return
+
+    var goblin_screen_pos = weak_goblin.get_ref().get_global_transform_with_canvas() * Vector2.ZERO
     var my_screen_pos = global_position
     var goblin_dir = my_screen_pos.direction_to(goblin_screen_pos)
     $Arrow.rotation = goblin_dir.angle()
